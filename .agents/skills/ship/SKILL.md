@@ -32,11 +32,12 @@ commit/tag are cheap to amend or delete; push and a public GitHub release are no
 
 ## Non-negotiables
 
-- **Three files must share the same version:** `package.json`, root `plugin.json`
-  (Agent Plugins 1.0), and `.claude-plugin/plugin.json` (Claude Code). Bump all
-  three in the same step. Marketplace indexes (`.claude-plugin/marketplace.json`,
+- **Two files must share the same version:** `package.json` and
+  `.claude-plugin/plugin.json` (Claude Code). Bump both in the same step.
+  Marketplace indexes (`.claude-plugin/marketplace.json`,
   `.omp-plugin/marketplace.json`) have no version field: never touch them for
-  versioning.
+  versioning. Do not recreate a root `plugin.json` (that re-enters Agent Plugins
+  and drops user-invoked skills).
 - **Semver by change type:** `patch` = fix/docs, `minor` = new skill/feature,
   `major` = breaking.
 - **One annotated tag per bump, created after the commit:** `v<version>` (v-prefix),
@@ -68,8 +69,8 @@ If cwd is not this repo, stop. Do not stash unless the user asked.
 
 ### 2. Determine the new version
 
-Read the current version from `package.json` and confirm root `plugin.json` and
-`.claude-plugin/plugin.json` match it. If they diverge, stop and fix; do not
+Read the current version from `package.json` and confirm
+`.claude-plugin/plugin.json` matches it. If they diverge, stop and fix; do not
 pick one silently.
 
 When no bump arg was given, infer it: any breaking change -> `major`; a new
@@ -88,8 +89,8 @@ echo "$cur -> $next"
 
 ### 3. Stage + draft (no commit yet)
 
-1. Bump the `version` field in `package.json`, root `plugin.json`, and
-   `.claude-plugin/plugin.json` to `<next>`.
+1. Bump the `version` field in `package.json` and `.claude-plugin/plugin.json`
+   to `<next>`.
 2. Prepend a `## <next>` section to `CHANGELOG.md` (under `# neo-matt`, above
    the previous fork release). Keep Matt's archived `# mattpocock-skills`
    history untouched.

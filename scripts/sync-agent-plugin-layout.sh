@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Agent Plugins 1.0 discovers only immediate children of skills/ that contain
+# omp-plugins discovers only immediate children of skills/ that contain
 # SKILL.md (no recursion). This fork keeps Matt's bucket layout
 # (skills/engineering/<name>/) and adds a promoted-name symlink at
 # skills/<name> so omp can load the same files. Targets stay inside the

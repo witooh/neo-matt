@@ -63,7 +63,7 @@ Copying `SKILL.md` is not enough:
 6. `docs/engineering/<name>.md` following [.agents/writing-docs.md](./.agents/writing-docs.md). Neo-owned pages are in-repo only: do not point them at aihero.dev; relative repo links are allowed.
 7. Update `ask-matt` in the same change.
 8. `scripts/link-skills.sh` after add, remove, or rename.
-9. `scripts/sync-agent-plugin-layout.sh` (promoted-name symlink at `skills/<name>` for Agent Plugins 1.0).
+9. `scripts/sync-agent-plugin-layout.sh` (promoted-name symlink at `skills/<name>` so omp-plugins sees one-level `SKILL.md`).
 10. `claude plugin validate . --strict`.
 
 ## Upstream
@@ -76,17 +76,15 @@ Do not flatten buckets. Do not vendor method skills from neo-plugin on top of a 
 
 ## Releases
 
-Maintainer skill for **this repo only**: `.agents/skills/ship/`, same omp discovery as `sync-upstream`. Invoke it when the user wants a release. It bumps `package.json`, root `plugin.json`, and `.claude-plugin/plugin.json` together, prepends `CHANGELOG.md`, then commit / tag / push / GitHub release. Marketplace indexes have no version field.
+Maintainer skill for **this repo only**: `.agents/skills/ship/`, same omp discovery as `sync-upstream`. Invoke it when the user wants a release. It bumps `package.json` and `.claude-plugin/plugin.json` together, prepends `CHANGELOG.md`, then commit / tag / push / GitHub release. Marketplace indexes have no version field.
 
-## Agent Plugins / omp
+## omp plugin
 
-Do not create or fork [agent-plugins.org](https://agent-plugins.org/). That site is the published 1.0 spec (Amazon / Cursor / Microsoft / OpenAI / Vercel). This repo **consumes** it.
+Do not add a root `plugin.json`. omp classifies that file as Agent Plugins 1.0, then the closed skill frontmatter schema skips every user-invoked skill (`disable-model-invocation`). Claude Code keeps its path list in `.claude-plugin/plugin.json`.
 
-Root `plugin.json` is the Agent Plugins manifest: closed schema (`$schema`, `name`, `version`, `description`, `author`, `homepage`, `repository`, `license`, `keywords`, `extensions` only). It MUST NOT contain a `skills` array. Claude Code keeps its path list in `.claude-plugin/plugin.json`.
+omp runtime loads a plugin only when `package.json` has `omp` or `pi` (`getEnabledPlugins` skips the rest). Keep `"omp": {}` even with no extensions. Keyword `omp-package` is not that gate.
 
-omp runtime loads a plugin only when `package.json` has `omp` or `pi` (`getEnabledPlugins` skips the rest). Keep `"omp": {}` even with no extensions. Keyword `omp-package` and root `plugin.json` are not that gate.
-
-Agent Plugins discovers only **immediate** children of `skills/` that contain `SKILL.md` (no recursion). Matt's buckets stay. `scripts/sync-agent-plugin-layout.sh` writes `skills/<name> -> <bucket>/<name>` for every promoted path in `.claude-plugin/plugin.json`. Those symlinks stay inside the plugin root.
+omp-plugins discovers only **immediate** children of `skills/` that contain `SKILL.md` (no recursion). Matt's buckets stay. `scripts/sync-agent-plugin-layout.sh` writes `skills/<name> -> <bucket>/<name>` for every promoted path in `.claude-plugin/plugin.json`. Those symlinks stay inside the plugin root.
 
 omp install (no using-neo session extension):
 

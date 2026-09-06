@@ -1,5 +1,11 @@
 # neo-matt
 
+## 1.0.2
+
+### Patch Changes
+
+- Stop shipping as Agent Plugins 1.0. Drop the root `plugin.json` so omp uses native omp-plugins discovery, which keeps `disable-model-invocation` skills (`grill-with-docs`, `implement`, `ask-matt`, and the rest of the user-invoked set) instead of skipping them for unexpected frontmatter.
+
 ## 1.0.1
 
 ### Patch Changes

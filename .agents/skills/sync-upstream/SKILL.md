@@ -53,12 +53,11 @@ Matt-owned skill bodies take **upstream**. Fork-owned paths must survive.
 | `skills/engineering/ask-matt/` | Take upstream's map, then restore neo rows: HTTP chain, on-ramps (`markitdown`, `init-project`, `migrate-project`), health (`falsifying`, `bug-hunter`, `attack-test`), standalone (`atlassian`, `gitlab`, `neo-core-sit`, `neo-aux-sit`). Drop a Matt skill that upstream removed. |
 | `README.md`, `skills/engineering/README.md`, `skills/productivity/README.md` | Keep neo entries. Add any new Matt promoted skill under the right User-invoked / Model-invoked heading. |
 | `.claude-plugin/plugin.json` | Keep neo paths. Add new Matt promoted paths. Do not blindly take Matt's `version` if neo-owned files also changed. |
-| Root `plugin.json` | Agent Plugins 1.0, closed schema. Never copy Claude's `skills` array into it. Keep `name: neo-matt`. |
 
 Fork-owned (ours if git offers a choice, unless the table says otherwise):
-`skills/engineering/<neo-name>/`, this overlay, root `plugin.json`, `.omp-plugin/`,
+`skills/engineering/<neo-name>/`, this overlay, `.omp-plugin/`,
 `.omp/config.yml`, `.agents/skills/`, `scripts/sync-agent-plugin-layout.sh`,
-`skills/<name>` promoted symlinks.
+`skills/<name>` promoted symlinks. Never restore a root `plugin.json`.
 
 Neo names: `falsifying`, `bug-hunter`, `attack-test`, `api-spec`, `e2e-playwright`,
 `openapi-doc`, `open-collection`, `confluence-api-doc`, `markitdown`,

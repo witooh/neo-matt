@@ -10,7 +10,7 @@ Upstream updates: project-scope omp skill `sync-upstream` (`.agents/skills/`). R
 
 ## Install
 
-**omp** (Agent Plugins 1.0):
+**omp** (native plugin, `package.json` `"omp": {}`):
 
 ```bash
 omp plugin install github:witooh/neo-matt
