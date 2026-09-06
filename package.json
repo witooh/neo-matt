@@ -1,12 +1,13 @@
 {
   "name": "neo-matt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Matt Pocock skills plus neo domain skills",
   "keywords": [
     "omp-package",
     "agent-plugins"
   ],
+  "omp": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/witooh/neo-matt"

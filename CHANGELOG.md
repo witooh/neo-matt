@@ -1,5 +1,11 @@
 # neo-matt
 
+## 1.0.1
+
+### Patch Changes
+
+- Make omp load neo-matt as a plugin: add `"omp": {}` to `package.json`. omp skips packages without `omp` or `pi`, so an install listed the plugin but did not expose skills. Document that gate in the fork overlay.
+
 ## 1.0.0
 
 ### Major Changes

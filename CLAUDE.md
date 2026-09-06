@@ -84,6 +84,8 @@ Do not create or fork [agent-plugins.org](https://agent-plugins.org/). That site
 
 Root `plugin.json` is the Agent Plugins manifest: closed schema (`$schema`, `name`, `version`, `description`, `author`, `homepage`, `repository`, `license`, `keywords`, `extensions` only). It MUST NOT contain a `skills` array. Claude Code keeps its path list in `.claude-plugin/plugin.json`.
 
+omp runtime loads a plugin only when `package.json` has `omp` or `pi` (`getEnabledPlugins` skips the rest). Keep `"omp": {}` even with no extensions. Keyword `omp-package` and root `plugin.json` are not that gate.
+
 Agent Plugins discovers only **immediate** children of `skills/` that contain `SKILL.md` (no recursion). Matt's buckets stay. `scripts/sync-agent-plugin-layout.sh` writes `skills/<name> -> <bucket>/<name>` for every promoted path in `.claude-plugin/plugin.json`. Those symlinks stay inside the plugin root.
 
 omp install (no using-neo session extension):
