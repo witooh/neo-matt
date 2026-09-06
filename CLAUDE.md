@@ -59,12 +59,12 @@ Copying `SKILL.md` is not enough:
 2. `agents/openai.yaml` (Codex metadata; `policy.allow_implicit_invocation: false` only if user-invoked).
 3. Rewrite every em-dash in the imported prose. No blind character substitution. Neo-plugin prose is full of them.
 4. Skill-tool calls stay name-based. Strip `using-neo` / graph-node / `docs/tasks/<key>/` orchestrator assumptions unless the skill still needs that path as an input (e.g. `e2e-playwright` reading a spec file).
-5. `skills/engineering/README.md`, top-level `README.md`, `.claude-plugin/plugin.json` `skills` array.
+5. `skills/engineering/README.md`, top-level `README.md`, `.claude-plugin/plugin.json` and `.grok-plugin/plugin.json` `skills` arrays (same paths).
 6. `docs/engineering/<name>.md` following [.agents/writing-docs.md](./.agents/writing-docs.md). Neo-owned pages are in-repo only: do not point them at aihero.dev; relative repo links are allowed.
 7. Update `ask-matt` in the same change.
 8. `scripts/link-skills.sh` after add, remove, or rename.
 9. `scripts/sync-agent-plugin-layout.sh` (promoted-name symlink at `skills/<name>` so omp-plugins sees one-level `SKILL.md`).
-10. `claude plugin validate . --strict`.
+10. `claude plugin validate . --strict` and `grok plugin validate .`.
 
 ## Upstream
 
@@ -76,7 +76,7 @@ Do not flatten buckets. Do not vendor method skills from neo-plugin on top of a 
 
 ## Releases
 
-Maintainer skill for **this repo only**: `.agents/skills/ship/`, same omp discovery as `sync-upstream`. Invoke it when the user wants a release. It bumps `package.json` and `.claude-plugin/plugin.json` together, prepends `CHANGELOG.md`, then commit / tag / push / GitHub release. Marketplace indexes have no version field.
+Maintainer skill for **this repo only**: `.agents/skills/ship/`, same omp discovery as `sync-upstream`. Invoke it when the user wants a release. It bumps `package.json`, `.claude-plugin/plugin.json`, and `.grok-plugin/plugin.json` together, prepends `CHANGELOG.md`, then commit / tag / push / GitHub release. Marketplace indexes have no version field.
 
 ## omp plugin
 
@@ -93,3 +93,18 @@ omp plugin install github:witooh/neo-matt
 ```
 
 Lists as `neo-matt@<version>`. `.omp-plugin/marketplace.json` is the omp catalog; day-to-day install is still `github:`.
+
+## grok plugin
+
+Grok Build reads `.grok-plugin/plugin.json` first, then `.claude-plugin/plugin.json`. A grok manifest without a `skills` array wins and treats `./skills` as one directory, which would also ship `misc/`, `in-progress/`, and `deprecated/`. Keep the same `skills` array as Claude. `scripts/sync-plugin-version.mjs --check` asserts both versions and both arrays.
+
+`.grok-plugin/marketplace.json` is the catalog. Grok rejects a local marketplace path of `.` or `./`, so the entry's source is the git URL, not `"./"`.
+
+Do not add a root `plugin.json` (see omp plugin).
+
+```bash
+grok plugin install witooh/neo-matt --trust
+grok plugin enable neo-matt
+```
+
+Lists as `neo-matt`. `enable` is separate from install. Verify with `grok plugin validate .`.

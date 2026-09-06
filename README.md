@@ -29,6 +29,15 @@ Dev against a working tree: `omp plugin link <path-to-this-clone>`.
 
 Do not install `mattpocock-skills` from Claude's official marketplace if you want this fork. That listing is Matt's plugin, not this one.
 
+**Grok Build** (native plugin; catalog is `.grok-plugin/marketplace.json`):
+
+```bash
+grok plugin install witooh/neo-matt --trust
+grok plugin enable neo-matt
+```
+
+Update: `grok plugin update neo-matt`. Uninstall: `grok plugin uninstall neo-matt --confirm`. `enable` is separate from install.
+
 Once per target repo, run `/setup-matt-pocock-skills` so issue tracker, triage labels, and doc layout exist.
 
 ## What you get

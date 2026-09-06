@@ -52,10 +52,10 @@ Matt-owned skill bodies take **upstream**. Fork-owned paths must survive.
 | `skills/engineering/code-review/` | Take upstream, then re-apply Collision: code-review from `CLAUDE.md` (spec prefers `docs/tasks/<key>/spec.md`; standards prefer `.kiro/steering/`; Security axis; no-delegation briefs). Re-sync `docs/engineering/code-review.md` if behaviour changed. |
 | `skills/engineering/ask-matt/` | Take upstream's map, then restore neo rows: HTTP chain, on-ramps (`markitdown`, `init-project`, `migrate-project`), health (`falsifying`, `bug-hunter`, `attack-test`), standalone (`atlassian`, `gitlab`, `neo-core-sit`, `neo-aux-sit`). Drop a Matt skill that upstream removed. |
 | `README.md`, `skills/engineering/README.md`, `skills/productivity/README.md` | Keep neo entries. Add any new Matt promoted skill under the right User-invoked / Model-invoked heading. |
-| `.claude-plugin/plugin.json` | Keep neo paths. Add new Matt promoted paths. Do not blindly take Matt's `version` if neo-owned files also changed. |
+| `.claude-plugin/plugin.json` | Keep neo paths. Add new Matt promoted paths. Copy the same `skills` array into `.grok-plugin/plugin.json`. Do not blindly take Matt's `version` if neo-owned files also changed. |
 
 Fork-owned (ours if git offers a choice, unless the table says otherwise):
-`skills/engineering/<neo-name>/`, this overlay, `.omp-plugin/`,
+`skills/engineering/<neo-name>/`, this overlay, `.omp-plugin/`, `.grok-plugin/`,
 `.omp/config.yml`, `.agents/skills/`, `scripts/sync-agent-plugin-layout.sh`,
 `skills/<name>` promoted symlinks. Never restore a root `plugin.json`.
 
@@ -67,16 +67,19 @@ Neo names: `falsifying`, `bug-hunter`, `attack-test`, `api-spec`, `e2e-playwrigh
 ## Post-merge
 
 If Matt added, renamed, or removed a **promoted** skill, the Claude `skills` array
-and both READMEs already reflect that from Conflicts. Then:
+and both READMEs already reflect that from Conflicts. Copy that array into
+`.grok-plugin/plugin.json`. Then:
 
 ```bash
 bash scripts/sync-agent-plugin-layout.sh
 bash scripts/link-skills.sh
 claude plugin validate . --strict
+grok plugin validate .
 ```
 
-Always run the three commands after a merge that touched skills or manifests,
+Always run the commands after a merge that touched skills or manifests,
 even when there were no conflicts.
+
 
 ## Report
 
