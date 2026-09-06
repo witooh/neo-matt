@@ -1,0 +1,136 @@
+stages:
+  - prepare-mod
+  - test
+  - build
+
+workflow:
+  auto_cancel:
+    on_new_commit: interruptible
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+variables:
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: ""     # disable TLS for DinD
+  DOCKER_DRIVER: "overlay2"
+  DOCKER_BUILDKIT: "1"
+  BASE_VERSION: "1.0.0" # Base semantic version for image tags
+  ECR_URI: "${AWS_ACCOUNT_ID_N005}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+  GOPATH: ${CI_PROJECT_DIR}/.go
+  # Ensure GOPATH/bin is on PATH so installed binaries (e.g. orchestrion) are found
+  PATH: "${CI_PROJECT_DIR}/.go/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+cache:
+  paths:
+    - .go/pkg/mod/
+    - .go/bin/
+
+prepare-mod:
+  stage: prepare-mod
+  tags: ["linux"]
+  image: public.ecr.aws/docker/library/golang:1.26
+  interruptible: true
+  retry: 1
+  resource_group: "ecr-push-${CI_PROJECT_PATH}"
+  rules:
+    - when: always
+  script:
+    - git config --global url."https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.awesome-poc-th.com/".insteadOf "https://gitlab.awesome-poc-th.com/"
+    - go env -w GOPRIVATE=gitlab.awesome-poc-th.com/libero-engineering/core/*
+    - go mod download
+    - go mod vendor
+  artifacts:
+    paths:
+      - vendor
+    expire_in: 1 day
+
+test:
+  tags: ["linux"]
+  image: public.ecr.aws/docker/library/golang:1.26
+  stage: test
+  needs: ["prepare-mod"]
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+  script:
+    - go test -short -mod=vendor -coverpkg=./... ./... -coverprofile=cover.profile
+    - ./scripts/check-coverage.sh cover.profile "${COVERAGE_THRESHOLD:-80}"
+  coverage: '/total:\s+\(statements\)\s+\d+.\d+%/'
+  artifacts:
+    paths:
+      - cover.profile
+    expire_in: 1 day
+
+build:
+  tags: ["ec2-shell"]
+  stage: build
+  interruptible: false # avoid partial image pushes
+  retry: 1
+  resource_group: "ecr-push-${CI_PROJECT_PATH}"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_TAG
+  variables:
+    # Isolate docker config from other jobs on the shared shell runner so we
+    # don't inherit stale credsStore/credHelpers from ~/.docker/config.json.
+    DOCKER_CONFIG: "${CI_PROJECT_DIR}/.docker-${CI_JOB_ID}"
+    # Override the global DOCKER_HOST (set for DinD jobs): ec2-shell uses the host socket.
+    DOCKER_HOST: unix:///var/run/docker.sock
+  before_script:
+    - set -euo pipefail
+
+    # Job-local docker config that wires ECR URL to the ECR credential helper.
+    # The helper (docker-credential-ecr-login) will use the AWS_* env vars set
+    # by the assume-role step below to mint ECR tokens on demand during push.
+    - mkdir -p "${DOCKER_CONFIG}"
+    - |
+      cat > "${DOCKER_CONFIG}/config.json" <<EOF
+      {
+        "credHelpers": {
+          "${ECR_URI}": "ecr-login"
+        }
+      }
+      EOF
+
+    # Generate semver-compliant image tag
+    - |
+      if [ -n "${CI_COMMIT_TAG:-}" ]; then
+        # Use git tag as-is for releases (e.g., v1.2.3)
+        export IMAGE_TAG="${CI_COMMIT_TAG}"
+      else
+        # Convert branch name to Docker-safe format (replace special chars with hyphens)
+        SAFE_BRANCH=$(echo "${CI_COMMIT_BRANCH}" | sed 's/[^a-zA-Z0-9._-]/-/g')
+        # Format: BASE_VERSION-branch.commit.pipeline (e.g., 1.0.0-main.abc1234.567890)
+        export IMAGE_TAG="${BASE_VERSION}-${SAFE_BRANCH}.${CI_COMMIT_SHORT_SHA}.${CI_PIPELINE_ID}"
+      fi
+      echo "Using IMAGE_TAG: ${IMAGE_TAG}"
+
+    # Cross-account assume role: runner is in n004, ECR lives in n005.
+    # The resulting AWS_* env vars are picked up by the ECR credential helper.
+    - |
+      echo "Assuming role: ${ROLE_ARN_N005}"
+      ASSUME_JSON="$(aws sts assume-role \
+        --role-arn "${ROLE_ARN_N005}" \
+        --role-session-name "gitlab-ecr-${CI_PIPELINE_ID}" \
+        --duration-seconds 3600)"
+      export AWS_ACCESS_KEY_ID="$(echo "${ASSUME_JSON}" | jq -r .Credentials.AccessKeyId)"
+      export AWS_SECRET_ACCESS_KEY="$(echo "${ASSUME_JSON}" | jq -r .Credentials.SecretAccessKey)"
+      export AWS_SESSION_TOKEN="$(echo "${ASSUME_JSON}" | jq -r .Credentials.SessionToken)"
+
+    # Prepare image name (already includes the ECR URI prefix)
+    - export API_IMAGE="${ECR_URI}/${ECR_REPO_NAME}:${IMAGE_TAG}"
+
+  script:
+    - |
+      set -euo pipefail
+      echo "Building image: ${API_IMAGE}"
+      docker build -t "${API_IMAGE}" .
+      echo "Pushing image: ${API_IMAGE}"
+      docker push "${API_IMAGE}"
+  after_script:
+    # Remove the job-local docker config so nothing leaks to the shared runner
+    - rm -rf "${DOCKER_CONFIG}" || true

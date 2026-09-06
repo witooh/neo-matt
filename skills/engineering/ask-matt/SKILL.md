@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 You don't remember every skill, so ask.
 
-A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or a vocabulary layer that runs underneath.
+A **flow** is a path through the skills. Most paths run along one **main flow**, and on-ramps merge onto it. Everything else is standalone, a vocabulary layer that runs underneath, or a fork domain skill that hangs off the same map.
 
 ## The main flow: idea → ship
 
@@ -23,7 +23,9 @@ The route most work travels. You have an idea and want it built.
    - **Yes** → **`/to-spec`** (turn the thread into a spec), then **`/to-tickets`** to split it into tracer-bullet tickets, each declaring its **blocking edges**. On a local tracker that's one file per ticket under `.scratch/<feature>/issues/`, worked blockers-first by hand; on a real tracker the edges become native blocking links, so any ticket whose blockers are done can be grabbed: kick off **`/implement`** per ticket, **`/clear`ing context between each one**. Each ticket is self-contained, so the last one's context is disposable.
    - **No** → **`/implement`** right here, in the same context window.
 
-   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/code-review`**, a two-axis review (Standards + Spec) of the diff, before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/code-review`** on its own whenever you want to review a branch or PR against a fixed point.
+   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/code-review`**, a two-axis review (Standards + Spec, plus Security when the diff earns it) of the diff, before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/code-review`** on its own whenever you want to review a branch or PR against a fixed point.
+
+   **HTTP / contract (fork):** if the work adds or changes an HTTP endpoint, **`/api-spec`** authors `docs/api/` **before** the handler. After the code exists, **`/openapi-doc`** reports drift, **`/open-collection`** builds a runnable Bruno collection, **`/confluence-api-doc`** publishes the docs, and HTTP-observable acceptance criteria get **`/e2e-playwright`**. These are model-invoked extras, not a second main flow.
 
 ### Context hygiene
 
@@ -45,11 +47,24 @@ A starting situation that generates work, then merges onto the main flow.
 
   When the map clears, **it hands off, it doesn't build**: merge onto the main flow at **`/to-spec`**, which collapses the map's linked decisions into a buildable plan, then `/to-tickets` and `/implement` as usual. Looping the map straight into `/implement` skips that collapse and throws the linked detail away, so go straight to `/implement` only when the effort turned out genuinely small.
 
+- **Ingest a source (JIRA, Confluence, URL, file)** → **`/markitdown`**. It writes a cited entry under `docs/knowledge/` so later spec work has an evidence path. Then merge onto the main flow at `/grill-with-docs` or `/to-spec`. Not a replacement for grilling.
+
+- **New Go hexagonal service** → **`/init-project`**. Empty runnable skeleton, then the main flow for the first domain.
+
+- **Restructure an existing Go service to that blueprint** → **`/migrate-project`**. Slice by slice, then back to `/implement` per slice.
+
 ## Codebase health
 
 Not feature work, just upkeep.
 
 - **`/improve-codebase-architecture`** runs whenever you have a spare moment to keep the codebase good for agents to operate in. It surfaces **deepening opportunities**; picking one _generates an idea_ you can take into the main flow at `/grill-with-docs`. It's the survey that finds the candidates; **`/codebase-design`** (below) is the bench you design the chosen one on.
+
+- Already green, different target:
+  - **`/falsifying`**: can this gate or checker go red at all? Audits the measuring apparatus, not the product.
+  - **`/bug-hunter`**: hunts product defects no gate covers.
+  - **`/attack-test`**: fires abuse paths over live HTTP after the happy path works.
+
+  Same neighbourhood as `/improve-codebase-architecture`, not a substitute. None of them builds features.
 
 ## Vocabulary underneath
 
@@ -84,6 +99,9 @@ Off the main flow entirely.
 - **`/wait-what`** is the corrective for a message that didn't land. Use it mid-conversation, inside any other skill, and the agent re-pitches what it just said with the context you were missing, in plain English, using the `CONTEXT.md` vocabulary. It works after the fact; `/grill-with-docs` is the upfront cure, because a shared language agreed early is what stops the jargon arriving at all.
 - **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
 - **`/writing-for-agents`** is the reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
+- **`/atlassian`**: ad-hoc Jira/Confluence via `acli`. Not the ingest path (`/markitdown` is).
+- **`/gitlab`**: GitLab MR operations via `glab`.
+- **`/neo-core-sit`** / **`/neo-aux-sit`**: inspect Core/Aux SIT (logs, Argo, Postgres connection settings in K8s secrets). Debug, not a build flow.
 
 ## Precondition
 

@@ -1,11 +1,15 @@
 {
-  "name": "mattpocock-skills",
-  "version": "1.2.3",
+  "name": "neo-matt",
+  "version": "1.0.0",
   "private": true,
-  "description": "Matt Pocock's agent skills for real engineering",
+  "description": "Matt Pocock skills plus neo domain skills",
+  "keywords": [
+    "omp-package",
+    "agent-plugins"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mattpocock/skills"
+    "url": "https://github.com/witooh/neo-matt"
   },
   "license": "MIT",
   "scripts": {

@@ -1,0 +1,18 @@
+{
+  "name": "neo-matt",
+  "description": "Matt Pocock skills plus neo domain skills for omp.",
+  "owner": {
+    "name": "Witoo Harianto",
+    "url": "https://github.com/witooh"
+  },
+  "plugins": [
+    {
+      "name": "neo-matt",
+      "source": "./",
+      "description": "Matt flows (ask-matt, grill-with-docs, implement) plus neo HTTP/API/e2e/JIRA/GitLab/SIT skills.",
+      "homepage": "https://github.com/witooh/neo-matt",
+      "license": "MIT",
+      "keywords": ["skills", "engineering", "tdd", "omp"]
+    }
+  ]
+}

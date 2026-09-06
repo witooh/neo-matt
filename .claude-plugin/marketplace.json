@@ -1,22 +1,23 @@
 {
-  "name": "mattpocock",
+  "name": "neo-matt",
   "owner": {
-    "name": "Matt Pocock",
-    "url": "https://www.aihero.dev"
+    "name": "Witoo Harianto",
+    "url": "https://github.com/witooh"
   },
-  "description": "Matt Pocock's skills for real engineering, as an installable Claude Code plugin.",
+  "description": "Matt Pocock skills plus neo domain skills, as an installable Claude Code plugin.",
   "plugins": [
     {
-      "name": "mattpocock-skills",
+      "name": "neo-matt",
       "source": "./",
-      "description": "Matt Pocock's agent skills for real engineering (grilling, spec/ticket flows, TDD, code review, domain modelling and more).",
+      "description": "Matt flows (ask-matt, grill-with-docs, implement) plus neo HTTP/API/e2e/JIRA/GitLab/SIT skills.",
       "category": "engineering",
       "keywords": [
         "engineering",
         "skills",
         "tdd",
         "code-review",
-        "grilling"
+        "grilling",
+        "omp"
       ]
     }
   ]

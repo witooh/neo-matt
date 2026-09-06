@@ -1,3 +1,11 @@
+# neo-matt
+
+## 1.0.0
+
+### Major Changes
+
+- Fork cutover from mattpocock/skills 1.2.3. Plugin identity is `neo-matt`. omp install via Agent Plugins 1.0. Neo domain skills live under `skills/engineering/`. Maintainer skills `sync-upstream` and `ship` live in `.agents/skills/` (not in the shipped plugin).
+
 # mattpocock-skills
 
 ## 1.2.3

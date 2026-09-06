@@ -1,185 +1,47 @@
-<p>
-  <a href="https://www.aihero.dev/s/skills-newsletter">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://res.cloudinary.com/total-typescript/image/upload/v1777382277/skills-repo-dark_2x.png">
-      <source media="(prefers-color-scheme: light)" srcset="https://res.cloudinary.com/total-typescript/image/upload/v1777382277/skill-repo-light_2x.png">
-      <img alt="Skills" src="https://res.cloudinary.com/total-typescript/image/upload/v1777382277/skill-repo-light_2x.png" width="369">
-    </picture>
-  </a>
-</p>
+# neo-matt
 
-# Skills For Real Engineers
+Fork of [mattpocock/skills](https://github.com/mattpocock/skills) plus neo domain skills. One plugin.
 
-[![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
+**Process is Matt's.** Work travels `grill-with-docs` → `to-spec` / `to-tickets` → `implement` (`tdd` then `code-review`). The router is [`ask-matt`](./skills/engineering/ask-matt/SKILL.md). This fork does not ship `using-neo`.
 
-My agent skills that I use every day to do real engineering - not vibe coding.
+**Neo adds domain skills**, not a second main flow: HTTP/API/e2e, Jira/GitLab, Go scaffold, SIT inspect. They live under `skills/engineering/` like every other engineering skill.
 
-Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
+Upstream updates: project-scope omp skill `sync-upstream` (`.agents/skills/`). Releases: `ship`.
 
-These skills are designed to be small, easy to adapt, and composable. They work with any model. They're based on decades of engineering experience. Hack around with them. Make them your own. Enjoy.
+## Install
 
-If you want to keep up with changes to these skills, and any new ones I create, you can join ~60,000 other devs on my newsletter:
-
-[Sign Up To The Newsletter](https://www.aihero.dev/s/skills-newsletter)
-
-## Installation (30-second setup)
-
-Two ways in, two philosophies. **The [Claude Code plugin](https://code.claude.com/docs/en/plugins)** installs the whole set as a managed, read-only bundle that updates when I ship, so you subscribe rather than fork. **[skills.sh](https://skills.sh/mattpocock/skills)** copies editable skill files into your project, so you can hack on them and make them your own. Pick one: installing both leaves you with every skill twice.
-
-### 1. Get the skills
-
-<details>
-<summary><strong>Claude Code</strong></summary>
+**omp** (Agent Plugins 1.0):
 
 ```bash
-claude plugins install mattpocock-skills
+omp plugin install github:witooh/neo-matt
 ```
 
-Or, from inside a session:
+Lists as `neo-matt@<version>`. Update with the same command plus `--force`. Uninstall: `omp plugin uninstall neo-matt`.
+
+Dev against a working tree: `omp plugin link <path-to-this-clone>`.
+
+**Claude Code** (this repo as a marketplace, not Matt's official listing):
 
 ```
-/plugin install mattpocock-skills
+/plugin marketplace add witooh/neo-matt
+/plugin install neo-matt@neo-matt
 ```
 
-It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically.
+Do not install `mattpocock-skills` from Claude's official marketplace if you want this fork. That listing is Matt's plugin, not this one.
 
-</details>
+Once per target repo, run `/setup-matt-pocock-skills` so issue tracker, triage labels, and doc layout exist.
 
-<details>
-<summary><strong>Codex, and other agents</strong></summary>
+## What you get
 
-```bash
-npx skills@latest add mattpocock/skills
-```
+| Layer | Skills |
+|---|---|
+| Main flow | `grill-with-docs`, `to-spec`, `to-tickets`, `implement`, `tdd`, `code-review` |
+| On-ramps | `triage`, `diagnosing-bugs`, `wayfinder`, `markitdown`, `init-project`, `migrate-project` |
+| HTTP / contract | `api-spec`, `openapi-doc`, `open-collection`, `confluence-api-doc`, `e2e-playwright` |
+| Already green | `falsifying`, `bug-hunter`, `attack-test`, `improve-codebase-architecture` |
+| Ops | `atlassian`, `gitlab`, `neo-core-sit`, `neo-aux-sit` |
 
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take, so make sure `setup-matt-pocock-skills` is one of them.**
-
-A native Codex plugin is on the roadmap (see [`.agents/adr/0002-ship-as-a-claude-code-plugin.md`](./.agents/adr/0002-ship-as-a-claude-code-plugin.md)).
-
-</details>
-
-<details>
-<summary><strong>For tinkerers</strong></summary>
-
-Use the same installer, on any agent, including Claude Code:
-
-```bash
-npx skills@latest add mattpocock/skills
-```
-
-It writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull my latest changes when you want them with `npx skills update`.
-
-</details>
-
-### 2. Run `/setup-matt-pocock-skills`
-
-In your agent, run it once per repo. It will:
-
-- Ask you which issue tracker you want to use (GitHub, Linear, or local files)
-- Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
-- Ask you where you want to save any docs we create
-
-### 3. Bam - you're ready to go.
-
-## Why These Skills Exist
-
-I built these skills as a way to fix common failure modes I see with Claude Code, Codex, and other coding agents.
-
-### #1: The Agent Didn't Do What I Want
-
-> "No-one knows exactly what they want"
->
-> David Thomas & Andrew Hunt, [The Pragmatic Programmer](https://www.amazon.co.uk/Pragmatic-Programmer-Anniversary-Journey-Mastery/dp/B0833F1T3V)
-
-**The Problem**. The most common failure mode in software development is misalignment. You think the dev knows what you want. Then you see what they've built - and you realize it didn't understand you at all.
-
-This is just the same in the AI age. There is a communication gap between you and the agent. The fix for this is a **grilling session** - getting the agent to ask you detailed questions about what you're building.
-
-**The Fix** is to use:
-
-- [`/grill-me`](./skills/productivity/grill-me/SKILL.md) - for non-code uses
-- [`/grill-with-docs`](./skills/engineering/grill-with-docs/SKILL.md) - same as [`/grill-me`](./skills/productivity/grill-me/SKILL.md), but adds more goodies (see below)
-
-These are my most popular skills. They help you align with the agent before you get started, and think deeply about the change you're making. Use them _every_ time you want to make a change.
-
-### #2: The Agent Is Way Too Verbose
-
-> With a ubiquitous language, conversations among developers and expressions of the code are all derived from the same domain model.
->
-> Eric Evans, [Domain-Driven-Design](https://www.amazon.co.uk/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215)
-
-**The Problem**: At the start of a project, devs and the people they're building the software for (the domain experts) are usually speaking different languages.
-
-I felt the same tension with my agents. Agents are usually dropped into a project and asked to figure out the jargon as they go. So they use 20 words where 1 will do.
-
-**The Fix** for this is a shared language. It's a document that helps agents decode the jargon used in the project.
-
-<details>
-<summary>
-Example
-</summary>
-
-Here's an example [`CONTEXT.md`](https://github.com/mattpocock/course-video-manager/blob/076a5a7a182db0fe1e62971dd7a68bcadf010f1c/CONTEXT.md), from my `course-video-manager` repo. Which one is easier to read?
-
-- **BEFORE**: "There's a problem when a lesson inside a section of a course is made 'real' (i.e. given a spot in the file system)"
-- **AFTER**: "There's a problem with the materialization cascade"
-
-This concision pays off session after session.
-
-</details>
-
-This is built into [`/grill-with-docs`](./skills/engineering/grill-with-docs/SKILL.md). It's a grilling session, but that helps you build a shared language with the AI, and document hard-to-explain decisions in ADR's.
-
-It's hard to explain how powerful this is. It might be the single coolest technique in this repo. Try it, and see.
-
-> [!TIP]
-> A shared language has many other benefits than reducing verbosity:
->
-> - **Variables, functions and files are named consistently**, using the shared language
-> - As a result, the **codebase is easier to navigate** for the agent
-> - The agent also **spends fewer tokens on thinking**, because it has access to a more concise language
-
-### #3: The Code Doesn't Work
-
-> "Always take small, deliberate steps. The rate of feedback is your speed limit. Never take on a task that’s too big."
->
-> David Thomas & Andrew Hunt, [The Pragmatic Programmer](https://www.amazon.co.uk/Pragmatic-Programmer-Anniversary-Journey-Mastery/dp/B0833F1T3V)
-
-**The Problem**: Let's say that you and the agent are aligned on what to build. What happens when the agent _still_ produces crap?
-
-It's time to look at your feedback loops. Without feedback on how the code it produces actually runs, the agent will be flying blind.
-
-**The Fix**: You need the usual tranche of feedback loops: static types, browser access, and automated tests.
-
-For automated tests, a red-green-refactor loop is critical. This is where the agent writes a failing test first, then fixes the test. This helps give the agent a consistent level of feedback that results in far better code.
-
-I've built a **[`/tdd`](./skills/engineering/tdd/SKILL.md) skill** you can slot into any project. It encourages red-green-refactor and gives the agent plenty of guidance on what makes good and bad tests.
-
-For debugging, I've also built a **[`/diagnosing-bugs`](./skills/engineering/diagnosing-bugs/SKILL.md)** skill that wraps best debugging practices into a disciplined loop, gated phase by phase.
-
-### #4: We Built A Ball Of Mud
-
-> "Invest in the design of the system _every day_."
->
-> Kent Beck, [Extreme Programming Explained](https://www.amazon.co.uk/Extreme-Programming-Explained-Embrace-Change/dp/0321278658)
-
-> "The best modules are deep. They allow a lot of functionality to be accessed through a simple interface."
->
-> John Ousterhout, [A Philosophy Of Software Design](https://www.amazon.co.uk/Philosophy-Software-Design-2nd/dp/173210221X)
-
-**The Problem**: Most apps built with agents are complex and hard to change. Because agents can radically speed up coding, they also accelerate software entropy. Codebases get more complex at an unprecedented rate.
-
-**The Fix** for this is a radical new approach to AI-powered development: caring about the design of the code.
-
-This is built in to every layer of these skills:
-
-- [`/to-spec`](./skills/engineering/to-spec/SKILL.md) quizzes you about which modules you're touching before creating a spec
-
-And crucially, [`/improve-codebase-architecture`](./skills/engineering/improve-codebase-architecture/SKILL.md) surveys a codebase for deepening opportunities and hands you the candidates. I recommend running it on your codebase once every few days. It is a survey, not a rescue: on a genuinely old codebase it will find real candidates, but it won't untangle the mud for you.
-
-### Summary
-
-Software engineering fundamentals matter more than ever. These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps of your career. Enjoy.
+Maintainer skills (this repo only, omp `.agents/skills/`): `sync-upstream`, `ship`.
 
 ## Reference
 
@@ -187,7 +49,7 @@ These split on one axis: who can invoke them. **User-invoked** skills are reacha
 
 ### Engineering
 
-Skills I use daily for code work.
+Skills used daily for code work.
 
 **User-invoked**
 
@@ -212,6 +74,21 @@ Skills I use daily for code work.
 - **[code-review](./skills/engineering/code-review/SKILL.md)**: Two-axis review of the diff since a fixed point: **Standards** (does it follow the repo's coding standards, plus a Fowler smell baseline?) and **Spec** (does it faithfully implement the originating issue/spec?), run as parallel sub-agents so neither pollutes the other.
 - **[resolving-merge-conflicts](./skills/engineering/resolving-merge-conflicts/SKILL.md)**: Work through an in-progress git merge or rebase conflict hunk by hunk, resolving by intent traced to each side's primary source, then finish the operation (never `--abort`).
 - **[wizard](./skills/engineering/wizard/SKILL.md)**: Generate an interactive bash wizard that walks a human through steps only they can perform: provisioning infrastructure, setting up credentials or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off migration or cutover.
+- **[markitdown](./skills/engineering/markitdown/SKILL.md)**: Ingest a JIRA card, Confluence page, URL, or file into `docs/knowledge/` as a curated, cited entry.
+- **[atlassian](./skills/engineering/atlassian/SKILL.md)**: Jira and Confluence CLI via `acli`: command map, JQL, and write-safety gates.
+- **[gitlab](./skills/engineering/gitlab/SKILL.md)**: GitLab MRs and CI via `glab`: create, update, read, comment, inspect. Not a code review.
+- **[api-spec](./skills/engineering/api-spec/SKILL.md)**: Author the custom-YAML contract at `docs/api/`. Spec-first producer for the HTTP doc chain.
+- **[openapi-doc](./skills/engineering/openapi-doc/SKILL.md)**: Read-only drift report: Go source vs `docs/api/`.
+- **[open-collection](./skills/engineering/open-collection/SKILL.md)**: Generate a runnable Bruno OpenCollection from the api-spec.
+- **[confluence-api-doc](./skills/engineering/confluence-api-doc/SKILL.md)**: Publish the api-spec to Confluence as caller-facing pages.
+- **[e2e-playwright](./skills/engineering/e2e-playwright/SKILL.md)**: AC-driven HTTP e2e tests on a Jest + Playwright-request harness.
+- **[falsifying](./skills/engineering/falsifying/SKILL.md)**: Attack a green gate to see whether it can go red.
+- **[bug-hunter](./skills/engineering/bug-hunter/SKILL.md)**: Hunt product defects no acceptance criterion asked about.
+- **[attack-test](./skills/engineering/attack-test/SKILL.md)**: Fire live HTTP abuse paths after the happy path works.
+- **[init-project](./skills/engineering/init-project/SKILL.md)**: Scaffold an empty Go hexagonal service that serves `/health`.
+- **[migrate-project](./skills/engineering/migrate-project/SKILL.md)**: Restructure an existing Go service to that blueprint, slice by slice.
+- **[neo-core-sit](./skills/engineering/neo-core-sit/SKILL.md)**: Inspect Core SIT logs, Argo, and Postgres secrets (read-only).
+- **[neo-aux-sit](./skills/engineering/neo-aux-sit/SKILL.md)**: Inspect Auxiliary SIT logs, Argo, and Postgres secrets (read-only).
 
 ### Productivity
 
@@ -229,3 +106,7 @@ General workflow tools, not code-specific.
 
 - **[grilling](./skills/productivity/grilling/SKILL.md)**: Interview the user relentlessly about a plan, decision, or idea until every branch of the design tree is resolved. The reusable interview primitive behind `grill-me`, `grill-with-docs`, `triage`, `wayfinder` and `improve-codebase-architecture`.
 - **[writing-for-agents](./skills/productivity/writing-for-agents/SKILL.md)**: Writing documents for agents: skills, AGENTS.md/CLAUDE.md, and any doc an agent reaches by a pointer.
+
+## License
+
+MIT. Matt's skills remain his; neo domain skills are this fork's.
