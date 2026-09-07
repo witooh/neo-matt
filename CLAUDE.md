@@ -108,3 +108,14 @@ grok plugin enable neo-matt
 ```
 
 Lists as `neo-matt`. `enable` is separate from install. Verify with `grok plugin validate .`.
+
+## Kiro
+
+Kiro has no native plugin path that keeps this repo's user-invoked skills. A root `plugin.json` is Agent Plugins 1.0 (see omp plugin). `./kiro.sh` copies promoted skills from `.claude-plugin/plugin.json` into `~/.kiro/skills/<name>/` or `DIR/.kiro/skills/<name>/`. Re-running overwrites those skill directories only. It does not install agents, hooks, or `using-neo`.
+
+```bash
+./kiro.sh --project
+./kiro.sh --global
+```
+
+Verify with `./kiro-test.sh`.

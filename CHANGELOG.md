@@ -1,5 +1,11 @@
 # neo-matt
 
+## 1.0.4
+
+### Patch Changes
+
+- Add `kiro.sh`, a Kiro copy installer. Kiro can load Agent Plugins 1.0 as powers, but a root `plugin.json` would make omp skip user-invoked skills, so this copies promoted skills into `.kiro/skills/` instead.
+
 ## 1.0.3
 
 ### Patch Changes

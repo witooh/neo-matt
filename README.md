@@ -38,6 +38,14 @@ grok plugin enable neo-matt
 
 Update: `grok plugin update neo-matt`. Uninstall: `grok plugin uninstall neo-matt --confirm`. `enable` is separate from install.
 
+**Kiro** (copy installer, not an Agent Plugin):
+
+```bash
+./kiro.sh --project      # or --global → ~/.kiro
+```
+
+Copies promoted skills into `.kiro/skills/` as `/<name>` slash commands. Re-running overwrites those skill directories only. Does not inject a session router and does not add a root `plugin.json`.
+
 Once per target repo, run `/setup-matt-pocock-skills` so issue tracker, triage labels, and doc layout exist.
 
 ## What you get
