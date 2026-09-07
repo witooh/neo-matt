@@ -53,7 +53,7 @@ domain: Account                 # group (→ INDEX section, collection folder, C
 method: POST                    # GET | POST | PUT | PATCH | DELETE
 path: /accounts/account         # route template; path params in {brace} form
 auth: None                      # auth scheme or None
-covers_ac: [AC-001, AC-002]     # optional traceability hook: the AC-IDs this endpoint satisfies (used in a neo loop)
+covers_ac: [AC-001, AC-002]     # optional traceability hook: the AC-IDs this endpoint satisfies when driven from a ticket/spec
 description: |                   # prose; markdown inline (`code`, **bold**, bullet lists) allowed
   Open a new account. ...
 path_params:                    # optional: present when the path has {params}

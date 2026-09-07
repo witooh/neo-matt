@@ -1,5 +1,11 @@
 # neo-matt
 
+## 1.0.3
+
+### Patch Changes
+
+- Point neo domain skills at Matt's ticket/spec sources instead of `docs/tasks/<card>/spec.md`. `code-review`, `api-spec`, `e2e-playwright`, and `bug-hunter` read the originating issue (issue tracker, a user-passed path, or a file under `docs/`, `specs/`, or `.scratch/`). L2 verify spawns a read-only sub-agent instead of the missing `fresh-eyes` agent type.
+
 ## 1.0.2
 
 ### Patch Changes

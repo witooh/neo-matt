@@ -14,7 +14,7 @@ Not for a reported symptom (`diagnosing-bugs`), a gate audit (`falsifying`), or 
 
 **All ACs pass. Done?**
 
-ACs are the questions someone thought to ask. Ground 1 starts from `docs/knowledge/`, not from `spec.md`.
+ACs are the questions someone thought to ask. Ground 1 starts from `docs/knowledge/`, not from the ticket/spec.
 
 ## It's working if
 

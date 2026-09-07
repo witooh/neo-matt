@@ -28,10 +28,9 @@ Every test that exercises an acceptance criterion is titled:
 ```
 
 - **Spaces around the dash**: `[GI-74 - AC-001]`, not `[GI-74-AC-001]`.
-- `<CARD>` = the JIRA card (e.g. `GI-74`, `BFID-5`) **or** the task-folder slug when the work has no
-  JIRA key (`[awareness-answer-resp - AC-001]`). A leading test-case id is allowed too
+- `<CARD>` = the ticket identifier: an issue number (`#123`), a local ticket slug (`01-add-endpoint`), or a tracker key (`GI-74`, `BFID-5`). A leading test-case id is allowed too
   (`[TC-028 - GI-52 - AC-001]`): the AC id must be the **last** segment in the bracket; the card is
-  read as the last JIRA-style key in the label.
+  read as the last tracker-style key in the label.
 - **Table-driven tests** may interpolate the AC id: `` it(`[GI-74 - ${tc.ac}] …`) ``, provided the
   loop reads `for (const tc of TABLE)` and `TABLE` is an array literal holding literal
   `ac: "AC-NNN"` entries. The tripwire follows that chain; any other shape is reported as
@@ -71,7 +70,7 @@ Deferred-ACs: AC-011, AC-012, AC-013: biometric evaluation + challenge protocol 
 The tripwire reports them as **declared deferred** and does not count them as uncovered. The reason
 is required: a deferral with no reason is how an AC gets silently dropped, and the L2 verifier
 judges whether it matches a real decision in the spec. Deferring is a **spec** edit, so it travels
-with the task-docs sync: un-deferring means deleting the id from this line in the same pass as
+with the ticket: un-deferring means deleting the id from this line in the same pass as
 writing the test.
 
 The word "deferred" in prose is **not** scanned, deliberately. A real spec line reads *"Was: defer
@@ -86,22 +85,22 @@ The tripwire harvests the AC ids it must cover from the spec text, and treats `A
 id onto the previous line , 
 
 ```markdown
-- [`docs/tasks/GI-445/spec.md`](../GI-445/spec.md): sibling verify spec; its
+- See issue #445: sibling verify ticket; its
   AC-008 verify-session is consumed here
 ```
 
 ,  the reference is harvested as one of **this** card's criteria and reported as a phantom
-UNCOVERED, sending someone hunting for a test that should not exist. Write `GI-445 AC-008` on
+UNCOVERED, sending someone hunting for a test that should not exist. Write `#445 AC-008` (or `GI-445 AC-008`) on
 the same line. The look-behind is deliberately not widened past the line: doing so would let a
 card's own ACs be swallowed by a neighbouring mention, and a dropped AC is a false PASS: the
 failure direction that matters.
 
 ## No-AC mode
 
-A task with no acceptance criteria has no coverage to gate. Title its tests `[<CARD>] <desc> →
+A ticket with no acceptance criteria has no coverage to gate. Title its tests `[<CARD>] <desc> →
 <expected>`: card prefix, no AC segment: and the tripwire reports `No-AC mode, coverage gate
-N/A`, still checking title grammar and card consistency. If the task really does have ACs, number
-them `AC-001…` in the spec first; No-AC mode is for tasks that genuinely have none, not a way
+N/A`, still checking title grammar and card consistency. If the ticket really does have ACs, number
+them `AC-001…` in the spec first; No-AC mode is for tickets that genuinely have none, not a way
 around an unnumbered spec.
 
 ## Spec skeleton

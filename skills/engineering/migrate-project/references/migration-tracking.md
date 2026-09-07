@@ -8,7 +8,7 @@ that cites it keeps its own enforcement.
 ## 1. The plan-file: `<target>/docs/migration/plan.md`
 
 - **One markdown file per target service.** Markdown **by design**: the orchestrator reads it to
-  decide resume-vs-fresh and to scope continued work, in the spirit of how `/implement` resumes from `docs/tasks/<id>/plan.md` + `todo.md`.
+  decide resume-vs-fresh and to scope continued work, in the spirit of how `/implement` works a ticket from the configured tracker (or `.scratch/<feature>/issues/`).
   It lives in the **target repo** (the thing being migrated), not in this skill.
 - **Sole writer = the Mapper.** The Migrator moves code; the Verifier runs gates; neither writes the
   plan. The orchestrator is write-forbidden. Every plan-file write/refresh is a Mapper dispatch.

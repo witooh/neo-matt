@@ -13,13 +13,14 @@ This is a TRIPWIRE, not ground truth: it parses test-title strings with regex (n
 AST) and counts AC coverage. Semantic fidelity: does the test actually assert the AC's
 expected status/error-code: is the L2 fresh-eyes verifier's job.
 
-  python3 e2echeck.py <spec-dir-or-file> <ac-source-file-or-dir> [--card GI-74]
+  python3 e2echeck.py <spec-dir-or-file> <ac-source-file-or-dir> [--card TICKET]
 
 <spec-dir-or-file> : a tests/e2e/specs dir (scanned for *.e2e.ts/.spec.ts) or one spec file.
-<ac-source>        : the design doc(s) the ACs live in (a file or a dir, .md/.html/.txt are
-                     all read as text); AC ids are extracted as the tokens  AC-<n>.
---card             : the expected JIRA card (e.g. GI-74). Optional: inferred from the spec
-                     titles when omitted.
+<ac-source>        : the ticket/spec the ACs live in (a file or a dir, .md/.html/.txt/.yaml
+                     are all read as text); AC ids are the tokens AC-<n>, or unlabeled
+                     `- [ ]` items under Acceptance criteria numbered AC-001… in order.
+--card             : the expected ticket id (issue number, local slug, or tracker key).
+                     Optional: inferred from the spec titles when omitted.
 
 Exit 0 = PASS (0 errors); exit 1 = at least one ERROR; exit 2 = usage/IO error.
 NOTE lines never fail. Stdlib only: no third-party dependency.
@@ -100,6 +101,34 @@ CARD_ONLY_RE = re.compile(r"^\s*\[([^\]]+)\]")
 # AC-007/008/013 … AC-007 + AC-008 un-deferred … AC-013 remains deferred", where
 # line-level matching gets every one of the three wrong.
 DEFERRED_RE = re.compile(r"^[^\S\n]*Deferred-ACs?[^\S\n]*:(.*)$", re.I | re.M)
+
+CHECKBOX_ITEM_RE = re.compile(r"^[^\S\n]*[-*]\s+\[[ xX]\]\s+(\S.*)$")
+AC_HEADING_RE = re.compile(r"^#{1,6}\s+Acceptance criteria\s*$", re.I | re.M)
+
+
+def checkbox_section(text):
+    """Body of an 'Acceptance criteria' heading, or the whole file if none."""
+    m = AC_HEADING_RE.search(text)
+    if not m:
+        return text
+    rest = text[m.end():]
+    nxt = re.search(r"^#{1,6}\s+", rest, re.M)
+    return rest[: nxt.start()] if nxt else rest
+
+
+def harvest_checkbox_acs(text):
+    """Unlabeled ticket checkboxes, in listed order. Skip rows that already carry AC-NNN."""
+    items = []
+    for line in checkbox_section(text).splitlines():
+        cm = CHECKBOX_ITEM_RE.match(line)
+        if not cm:
+            continue
+        rest = cm.group(1).strip()
+        if AC_TOKEN_RE.search(rest):
+            continue
+        items.append(rest)
+    return items
+
 
 
 def resolve_dynamic_acs(src, it_pos, expr):
@@ -264,7 +293,7 @@ def foreign_ac_spans(text, expected_card):
 
 
 def collect_acs(ac_path, expected_card=None):
-    """AC ids (normalized → original-form) and declared deferrals from the design source(s).
+    """AC ids (normalized → original-form) and declared deferrals from the ticket/spec source(s).
 
     Returns (found, deferred) where deferred maps a normalized AC id to the reason given
     on its `Deferred-ACs:` line.
@@ -303,6 +332,13 @@ def collect_acs(ac_path, expected_card=None):
                 err(f"{os.path.relpath(fp)}: Deferred-ACs {', '.join(ids)} states no reason, a deferral without a reason is a silently dropped AC")
             for tok in ids:
                 deferred[norm_ac(tok)] = reason
+    if not found:
+        n = 1
+        for fp in files:
+            for _item in harvest_checkbox_acs(read_text(fp)):
+                tok = f"AC-{n:03d}"
+                found[norm_ac(tok)] = tok
+                n += 1
     return found, deferred
 
 
@@ -320,7 +356,7 @@ def main():
             pos = [a for a in pos if a != card_arg]
 
     if len(pos) < 2:
-        sys.stderr.write("usage: e2echeck.py <spec-dir-or-file> <ac-source> [--card GI-74]\n")
+        sys.stderr.write("usage: e2echeck.py <spec-dir-or-file> <ac-source> [--card TICKET]\n")
         sys.exit(2)
     spec_path, ac_path = pos[0], pos[1]
     if not os.path.exists(spec_path):
@@ -334,12 +370,12 @@ def main():
     cov, cards, files = collect_specs(spec_path, expected_card)
     acs, deferred = collect_acs(ac_path, expected_card)
 
-    # No-AC mode (SKILL.md): a task with no ACs has no coverage gate: title grammar and card
+    # No-AC mode (SKILL.md): a ticket with no ACs has no coverage gate: title grammar and card
     # consistency are still checked, but there is nothing to cover, so this is not a failure.
     no_ac_mode = not acs
     if no_ac_mode:
         note(f"no AC ids (AC-<n>) in {ac_path}: No-AC mode: coverage gate is N/A, "
-             f"title grammar still checked. If this task DOES have ACs, number them AC-001… first.")
+             f"title grammar still checked. If this ticket DOES have ACs, number them AC-001… first.")
 
     # card consistency
     if expected_card and cards and expected_card not in cards:

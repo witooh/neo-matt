@@ -16,7 +16,7 @@ Type `/e2e-playwright` on "write e2e" / "รัน e2e" / "e2e ตาม AC".
 
 ## Prerequisites
 
-An existing `tests/e2e` Jest+Playwright harness. If missing: report and stop; do not invent one. ACs from `docs/tasks/<card>/spec.md` or legacy `docs/design/`. No AC section: no-AC mode (coverage N/A).
+An existing `tests/e2e` Jest+Playwright harness. If missing: report and stop; do not invent one. ACs from the originating issue/ticket (issue tracker, a path you pass, or a spec file under `docs/`, `specs/`, or `.scratch/`). No AC section: no-AC mode (coverage N/A).
 
 ## Common questions
 

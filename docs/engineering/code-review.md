@@ -21,24 +21,23 @@ You must supply the fixed point. If you do not, the skill asks for one rather th
 
 ## Prerequisites
 
-The Standards axis reads `.kiro/steering/` when that directory exists (guide table in `INDEX.md` or `AGENTS.md`, then the guides whose `fileMatchPattern` matches the diff). Otherwise it reads whatever the repo documents (`CODING_STANDARDS.md`, `CONTRIBUTING.md`, and the like). Either way it also carries a built-in smell baseline.
+The Standards axis reads whatever the repo documents about how code should be written (`CODING_STANDARDS.md`, `CONTRIBUTING.md`, and the like). If `.kiro/steering/` exists, those fileMatch-scoped architecture guides are also a standards source (guide table in `INDEX.md` or `AGENTS.md`, then the guides whose `fileMatchPattern` matches the diff). Either way it also carries a built-in smell baseline.
 
 The Spec axis needs a spec to exist and be findable. It looks in this order:
 
-1. `docs/tasks/<key>/spec.md` when that file exists (key from the branch, the commits, or you).
+1. Issue references in the commit messages (`#123`, `Closes #45`, a GitLab `!67`), fetched through `docs/agents/issue-tracker.md`. Local tracker: `.scratch/<feature>/issues/`.
 2. A path you pass in as an argument.
-3. Issue references in the commit messages (`#123`, `Closes #45`, a GitLab `!67`), fetched through `docs/agents/issue-tracker.md`.
-4. A spec file under `docs/`, `specs/`, `.scratch/`, or a legacy `docs/design/<usecase>/` layout matching the branch or feature name.
-5. Asking you.
+3. A spec file under `docs/`, `specs/`, or `.scratch/` matching the branch or feature name.
+4. Asking you.
 
-Step 3 depends on `docs/agents/issue-tracker.md`, which [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) writes. Without it the axis still works if a spec file was already found or you hand it a path. With no spec at all, the Spec sub-agent is skipped and the report says "no spec available" rather than inventing requirements.
+Step 1 depends on `docs/agents/issue-tracker.md`, which [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) writes. Without it the axis still works if a spec file was already found or you hand it a path. With no spec at all, the Spec sub-agent is skipped and the report says "no spec available" rather than inventing requirements.
 
 ## The two axes
 
 | | Standards | Spec |
 | --- | --- | --- |
 | Question | Is it built right? | Is it the right thing? |
-| Reads | `.kiro/steering/` when present, else the repo's documented standards, plus the smell baseline | The originating issue or spec |
+| Reads | The repo's documented standards (including `.kiro/steering/` when present), plus the smell baseline | The originating issue or spec |
 | Reports | Documented breaches (can be hard), and smells (always judgement calls) | Missing or partial requirements, scope creep, requirements implemented wrongly |
 | Every finding cites | The standards file and the rule, or the named smell plus the hunk | The line of the spec |
 

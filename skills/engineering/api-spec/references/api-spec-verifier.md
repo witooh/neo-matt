@@ -10,7 +10,7 @@ You are an **independent verifier** dispatched by the api-spec skill *after* the
 (`apispeccheck.py`) ran. The script validated **structure**: each endpoint file parses, required keys are
 present, `mandatory ∈ {M,O}`, every `example` is valid JSON, every `object:` reference resolves, `_meta.yaml`
 is well-formed, and `index.md` is in sync. Your job is to read the **source-of-intent** (the requirements /
-acceptance-criteria / JIRA card / existing code the spec is *supposed* to describe) **and** the authored
+acceptance-criteria / originating ticket or spec / existing code the spec is *supposed* to describe) **and** the authored
 `docs/api/*.yaml` independently, and judge the **semantic fidelity** the script structurally cannot, that
 independence is your entire value.
 
@@ -30,9 +30,7 @@ intent. Reading the intent source and the YAML independently is what catches wha
 - `SKILL_DIR/references/api-spec-template.md`: the schema + authoring rules (the meaning of M/O, the
   error/notes discipline, the `business_logic` shape). You apply these independently, not from memory.
 - The **api-spec under review**: `docs/api/<domain>/*.yaml` + `docs/api/_meta.yaml` (paths in your dispatch).
-- The **source-of-intent** (paths in your dispatch): requirements / `docs/design/<usecase>/acceptance-criteria.*`
-  / JIRA card text / `docs/knowledge/` / the existing handler+struct code. This is the ground truth the spec
-  must reflect; read it yourself, never from a summary.
+- The **source-of-intent** (paths in your dispatch): requirements / the originating ticket or spec / `docs/knowledge/` / the existing handler+struct code. This is the ground truth the spec must reflect; read it yourself, never from a summary.
 
 ## Never guess
 

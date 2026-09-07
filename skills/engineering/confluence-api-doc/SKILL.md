@@ -63,12 +63,11 @@ Canonical compare (ignores Confluence's benign rewrites; CDATA must match exactl
 
 Ask once via `AskUserQuestion`: *"Run an independent fresh-eyes verify of the published pages? (default: yes)"*, **no** → skip L2 (mark "skipped by user"); **yes** → L2.
 
-### verify-L2 · Fresh-eyes verifier (independent agent)
+### verify-L2 · Independent verifier
 
-The pre-flight + round-trip prove the storage is well-formed and survived Confluence verbatim; they cannot judge whether the **conversion preserved meaning**. Dispatch a verifier that reads a sample of (source markdown ↔ converted storage) pairs:
+The pre-flight + round-trip prove the storage is well-formed and survived Confluence verbatim; they cannot judge whether the **conversion preserved meaning**. Spawn a read-only sub-agent that reads a sample of (source markdown ↔ converted storage) pairs:
 
 ```
-Agent(subagent_type: "fresh-eyes", description: "verify confluence publish", prompt: """
 # Role: Publish Verifier
 Read first: <SKILL_DIR>/references/pub-verifier.md
 SKILL_DIR = <skill base dir>
@@ -84,10 +83,10 @@ pub-verifier.md.
 <list a representative sample: the most table-heavy, code-heavy, and nested-list pages>
 
 End with Status: DONE | DONE_WITH_CONCERNS | BLOCKED
-""")
 ```
 
-`SKILL_DIR` is mandatory. The verifier is read-only by tool grant: `fresh-eyes` holds no write/edit (harness without that type → `general-purpose`, read-only by instruction only) → **you** fix the conversion → re-stage → re-run L1a (and re-push + L1b if already pushed).
+`SKILL_DIR` is mandatory. The verifier is read-only (no write, edit, or commit) → **you** fix the conversion → re-stage → re-run L1a (and re-push + L1b if already pushed).
+
 
 ### verify-L3 · Completeness sweep (omission critic)
 

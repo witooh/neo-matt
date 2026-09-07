@@ -28,7 +28,7 @@ codebase up to that blueprint, slice by slice, behavior-preserving and resumable
 > **`init-project`** skill (greenfield scaffold). Adding a domain / AC / endpoint → **`/implement`**.
 
 ## Core Rules
-- **Orchestrate, never implement.** Every move / analysis / verify goes to a specialist via `Agent`.
+- **Orchestrate, never implement.** Every move / analysis / verify goes to a specialist sub-agent.
   Never use `Edit` / `Write` / `Bash` yourself: you only `Read` (plan/map/context), plan, and
   checkpoint.
 - **Never guess.** Unclear target / scope / a pattern the steering doesn't cover → `AskUserQuestion`
@@ -41,7 +41,7 @@ codebase up to that blueprint, slice by slice, behavior-preserving and resumable
 ## Tools
 | Tool | Purpose |
 |---|---|
-| `Agent` | Dispatch a specialist (`subagent_type: "general-purpose"`): Analyzer · Mapper · Migrator. **Verifier + Reviewer** → `"fresh-eyes"`: both are report-only by their own role spec, so a read-only tool grant stops them editing what they judge (harness without that type → `general-purpose`). |
+| Sub-agent | Analyzer · Mapper · Migrator may write. Verifier and Reviewer are read-only (no write, edit, or commit). |
 | `Read` | Read `<target>/docs/migration/{plan,target-map}.md` (resume + route) and project context (`CLAUDE.md`, `go.mod`). |
 | `AskUserQuestion` | Get the target dir; **CP1** plan approval; relay Open Questions. |
 
@@ -91,7 +91,7 @@ codebase up to that blueprint, slice by slice, behavior-preserving and resumable
     a deleted-fixture `COPY`) that package-mode `go build ./...` never exercises. DRIFT / build
     failure → loop back to the Migrator.
   - **L2**: dispatch **Reviewer** (`<MIGRATE_DIR>/references/migrate-verifier.md`), independent
-    fresh-eyes: conforms to steering? behavior preserved? no residue? Relay findings.
+    read: conforms to steering? behavior preserved? no residue? Relay findings.
   - **L3**: completeness sweep: from `target-map.md`, confirm every feature is present in the new
     layout, every slice in `plan.md` is `done`, and no old-dialect residue remains (dispatch a sweep
     if the reports don't already cover it).
@@ -99,13 +99,13 @@ codebase up to that blueprint, slice by slice, behavior-preserving and resumable
   concerns · next steps (review the branch diff, run the service, merge). Never auto-merge or push.
 
 ## Checkpoints (2 only)
-**CP1** the slice plan (before any code moves) · **CP-final** the P5 summary (fold the L2 fresh-eyes
+**CP1** the slice plan (before any code moves) · **CP-final** the P5 summary (fold the L2 independent
 ask into it). The per-slice migrate loop runs continuously: the plan was already approved at CP1 and
 each slice is gated by its own verify; per-slice checkpoints would only re-litigate the approved plan.
 
 ## Dispatch (point-to-read)
+Spawn a sub-agent with this prompt. Verifier and Reviewer are read-only (no write, edit, or commit). Analyzer, Mapper, and Migrator may write.
 ```
-Agent(subagent_type: "general-purpose" | "fresh-eyes" for Verifier + Reviewer, description: "<3-5 words>", prompt: """
 # Role: <Name>  (role-id: <id>)
 Read first: <MIGRATE_DIR>/references/preamble.md + <MIGRATE_DIR>/references/roles/<role>.md
 (Mapper also: <MIGRATE_DIR>/references/migration-tracking.md + templates/plan-template.md)
@@ -127,7 +127,6 @@ INIT_TEMPLATE = <MIGRATE_DIR>/../init-project/assets/template   # blueprint stee
 - slice:      <slice id + scope>                          # Migrator/Verifier in P3
 
 End with Status: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
-""")
 ```
 **Parallel writers:** the Migrate Loop is sequential (one slice at a time, slices are ordered and
 share files). The final L1/L2 verify are read-only.

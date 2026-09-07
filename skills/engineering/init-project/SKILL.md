@@ -51,7 +51,7 @@ Kafka running (it warns and continues: it never panics on missing infra).
 |---|---|
 | `AskUserQuestion` / chat | Gather the new service's identity (module path, name, id, postgres schema, target dir). |
 | `Bash` | Run `assets/scaffold.py` (generate) + `assets/initcheck.py` (L1 verify). |
-| `Agent` | Dispatch the L2 fresh-eyes verifier (`references/init-verifier.md`). |
+| Sub-agent | Dispatch the L2 independent verifier (`references/init-verifier.md`). |
 | `Read` | Read the guide / verifier references. |
 
 In the steps below, `<skill-dir>` is this skill's base directory (shown to you when the skill loads).
@@ -100,11 +100,11 @@ In the steps below, `<skill-dir>` is this skill's base directory (shown to you w
    layers, `/health` wired with an empty `Handlers`, and a best-effort (never-panicking) boot path. If
    any check FAILs, fix and re-run before reporting success.
 
-4. **L2 verify (fresh eyes).** Dispatch a sub-agent: `Agent(subagent_type: "fresh-eyes")`,
-   read-only by tool grant (harness without that type → `general-purpose`), with the contract in
-   `references/init-verifier.md`, passing the target dir. It independently
+4. **L2 verify (independent).** Spawn a read-only sub-agent (no write, edit, or commit) with the
+   contract in `references/init-verifier.md`, passing the target dir. It independently
    confirms the project is a genuinely empty, runnable skeleton (serves `/health` without Docker, no
    business leak, steering intact). Relay any issue it surfaces.
+
 
 5. **Report.** Summarize concisely: where the project is, that it builds + serves `/health`, and the
    next step: `cd <dir> && go run ./cmd/api` (curl `localhost:8080/health`), then use **`/implement`** to

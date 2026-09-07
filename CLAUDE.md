@@ -49,7 +49,7 @@ When an imported `SKILL.md` says "when `using-neo` routes here", rewrite that tr
 
 ## Collision: code-review
 
-One skill. Keep Matt's file. Port neo's source-discovery on top: spec prefers `docs/tasks/<key>/spec.md` when present, else Matt's issue-tracker lookup; standards prefer `.kiro/steering/` when present, else `CODING_STANDARDS.md` / `CONTRIBUTING.md`. Keep the Fowler smell baseline. Keep neo's optional Security axis (untrusted input, auth, secrets, money, PII).
+One skill. Keep Matt's file: spec lookup is the originating issue (via `docs/agents/issue-tracker.md`, including `.scratch/<feature>/issues/`), a user-passed path, then a spec file under `docs/`, `specs/`, or `.scratch/`. Standards are whatever the repo documents (`CODING_STANDARDS.md`, `CONTRIBUTING.md`, and `.kiro/steering/` when present, fileMatch-scoped). Keep the Fowler smell baseline. Keep neo's optional Security axis (untrusted input, auth, secrets, money, PII) and the no-delegation briefs.
 
 ## Landing a neo skill
 
@@ -58,7 +58,7 @@ Copying `SKILL.md` is not enough:
 1. `skills/engineering/<name>/` including `assets/` and `references/`.
 2. `agents/openai.yaml` (Codex metadata; `policy.allow_implicit_invocation: false` only if user-invoked).
 3. Rewrite every em-dash in the imported prose. No blind character substitution. Neo-plugin prose is full of them.
-4. Skill-tool calls stay name-based. Strip `using-neo` / graph-node / `docs/tasks/<key>/` orchestrator assumptions unless the skill still needs that path as an input (e.g. `e2e-playwright` reading a spec file).
+4. Skill-tool calls stay name-based. Strip `using-neo` / graph-node / `docs/tasks/<key>/` orchestrator assumptions. Intent and acceptance criteria come from Matt's sources: the originating issue/ticket (`docs/agents/issue-tracker.md`, including `.scratch/<feature>/issues/`), a user-passed path, or a spec file under `docs/`, `specs/`, or `.scratch/`.
 5. `skills/engineering/README.md`, top-level `README.md`, `.claude-plugin/plugin.json` and `.grok-plugin/plugin.json` `skills` arrays (same paths).
 6. `docs/engineering/<name>.md` following [.agents/writing-docs.md](./.agents/writing-docs.md). Neo-owned pages are in-repo only: do not point them at aihero.dev; relative repo links are allowed.
 7. Update `ask-matt` in the same change.

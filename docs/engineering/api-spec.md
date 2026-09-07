@@ -2,7 +2,7 @@
 
 `api-spec` authors the custom-YAML contract at `docs/api/`. It is the **producer**. `openapi-doc`, `open-collection`, and `confluence-api-doc` only read what it writes.
 
-The defining constraint is **spec-first**: Draft and Generate author from intent (`docs/knowledge/`, a task spec, a card), not from scanning Go. The one exception is Update-from-code, which syncs routes/fields/types and preserves hand-authored M/O, `business_logic`, `remark`, and `errors`.
+The defining constraint is **spec-first**: Draft and Generate author from intent (`docs/knowledge/`, the originating ticket/spec, the user's description), not from scanning Go. The one exception is Update-from-code, which syncs routes/fields/types and preserves hand-authored M/O, `business_logic`, `remark`, and `errors`.
 
 ## When to reach for it
 
@@ -17,7 +17,7 @@ Type `/api-spec`, or the agent reaches for it when an HTTP endpoint needs a cont
 
 ## Prerequisites
 
-PyYAML. Intent must exist (ACs, knowledge entry, or a card). Missing intent: stop; do not invent endpoints.
+PyYAML. Intent must exist (the originating ticket/spec, a knowledge entry, or the user's description). Missing intent: stop; do not invent endpoints.
 
 ## Common questions
 

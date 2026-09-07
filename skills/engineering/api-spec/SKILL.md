@@ -34,11 +34,11 @@ Four modes. **Draft** and **Generate** both author a spec where none exists yet;
 
 - **Spec root**: default `docs/api/` at the repo root; in a monorepo scope it to the chosen service (e.g. `services/<name>/docs/api/`). Ask if ambiguous.
 - **Source-of-intent**: what the spec must reflect (the input the spec is authored *from*):
-  - **Draft**: intent **only**: acceptance-criteria (`docs/tasks/<card>/spec.md`) / requirements / a JIRA card / `docs/knowledge/` / the user's description. **Exclude code**: the code does not exist yet (and is not consulted even if some does). No locatable AC/requirements → STOP and ask; never invent an endpoint surface.
+  - **Draft**: intent **only**: the originating issue/ticket (issue tracker / a user-passed path / a spec file under `docs/`, `specs/`, or `.scratch/`) / `docs/knowledge/` / the user's description. **Exclude code**: the code does not exist yet (and is not consulted even if some does). No locatable AC/requirements → STOP and ask; never invent an endpoint surface.
   - **Update / Validate**: the existing `docs/api/*.yaml` is the baseline; the delta is the change request (a new endpoint, a changed field), or, for **Update-from-code** (sync-back), the built Go source being reconciled back into the spec.
-  - **Generate**: gather the intent from whatever exists: a requirements doc / acceptance-criteria (`docs/tasks/<card>/spec.md`) / a JIRA card / `docs/knowledge/` / the user's description / existing handler+struct code to document. **No locatable intent at all → STOP and ask** for the requirements; never invent an endpoint surface.
+  - **Generate**: gather the intent from whatever exists: the originating issue/ticket / a requirements doc / `docs/knowledge/` / the user's description / existing handler+struct code to document. **No locatable intent at all → STOP and ask** for the requirements; never invent an endpoint surface.
 - Read `CLAUDE.md` / `AGENTS.md` / `README` for the service name, base URL, and domain grouping.
-- **When driven from a task spec** (`docs/tasks/<card>/spec.md`) the intent is the spec's acceptance criteria; record the AC-IDs each endpoint satisfies in `covers_ac`. **Standalone**, omit `covers_ac`.
+- **When driven from a ticket/spec that has acceptance criteria**, record the AC-IDs each endpoint satisfies in `covers_ac` (use the source's `AC-NNN` ids, or `AC-001…` in listed order for unlabeled ticket checkboxes). **Standalone**, omit `covers_ac`.
 
 ## Step 2 · Author / update the endpoint YAML
 
@@ -70,12 +70,11 @@ It checks each endpoint parses + has the required keys; `mandatory ∈ {M,O}`; e
 
 Ask once via `AskUserQuestion`: *"Run an independent fresh-eyes verify of the authored api-spec? (default: yes)"*, **no** → skip L2 (mark "skipped by user"); **yes** → L2.
 
-### verify-L2 · Fresh-eyes semantic verifier (independent agent)
+### verify-L2 · Independent semantic verifier
 
-Dispatch a verifier that did **not** author the spec: it re-reads the **source-of-intent** and the YAML independently and judges the semantic fidelity the script cannot (does the contract reflect the intent, M/O vs business rules, errors covering failure paths, business_logic matching the real flow, example consistency):
+Dispatch a verifier that did **not** author the spec: it re-reads the **source-of-intent** and the YAML independently and judges the semantic fidelity the script cannot (does the contract reflect the intent, M/O vs business rules, errors covering failure paths, business_logic matching the real flow, example consistency). Spawn a read-only sub-agent with this prompt:
 
 ```
-Agent(subagent_type: "fresh-eyes", description: "verify api-spec", prompt: """
 # Role: API-Spec Semantic Verifier
 Read first: <SKILL_DIR>/references/api-spec-verifier.md
 SKILL_DIR = <skill base dir>
@@ -88,13 +87,13 @@ semantic fidelity (not apispeccheck.py's structural checks). Read the intent AND
 docs/api/<domain>/*.yaml (+ docs/api/_meta.yaml)
 
 ## Source-of-intent
-<paste the intent paths: requirements / docs/tasks/<card>/spec.md / JIRA card / docs/knowledge/ / code>
+<paste the intent paths: ticket/spec / docs/knowledge/ / code>
 
 End with Status: DONE | DONE_WITH_CONCERNS | BLOCKED
-""")
 ```
 
-`SKILL_DIR` is mandatory: without it the verifier cannot read its role file and fails silently. The verifier is read-only by tool grant, `fresh-eyes` holds no write/edit (harness without that type → `general-purpose`, read-only by instruction only) → **you** reconcile the YAML → re-run `apispeccheck.py`. Do not auto-redispatch; offer a second round (default yes), then escalate.
+`SKILL_DIR` is mandatory: without it the verifier cannot read its role file and fails silently. The verifier is read-only (no write, edit, or commit) → **you** reconcile the YAML → re-run `apispeccheck.py`. Do not auto-redispatch; offer a second round (default yes), then escalate.
+
 
 ### verify-L3 · Completeness sweep (omission critic)
 

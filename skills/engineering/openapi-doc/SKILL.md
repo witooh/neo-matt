@@ -6,7 +6,7 @@ description: >
   the source of truth; this skill **writes nothing**: it scans the Go code and diffs it against
   `docs/api/<domain>/*.yaml` (routes, request/response fields, M/O, types), reporting where the
   implementation drifted from the contract so `api-spec` can reconcile it. Built-in **three-layer
-  verify** (script + fresh-eyes agent + completeness sweep). Trigger on: "check go against api-spec",
+  verify** (script + independent sub-agent + completeness sweep). Trigger on: "check go against api-spec",
   "api drift report", "sync-back api", "did the code drift from the spec", "หา drift api",
   "เช็ค code ตรงกับ api-spec ไหม". NOTE: reads `docs/api/*.yaml` (authored by `api-spec`) + Go, writes
   nothing: a runnable Bruno collection is `open-collection`; Confluence publishing is
@@ -49,10 +49,9 @@ It reads the Go source + every `docs/api/<domain>/*.yaml` and mechanically check
 ### verify-L1.5 · Offer fresh-eyes (default yes)
 Ask once via `AskUserQuestion`: *"Run an independent fresh-eyes verify of the drift report? (default: yes)"*, **no** → skip L2 (mark "skipped by user"); **yes** → L2.
 
-### verify-L2 · Fresh-eyes drift verifier (independent agent)
-Dispatch a verifier that re-reads the Go source **and** the api-spec independently and judges only the drift the script could not decide (the `NOTE` spots): unconfident struct matches, the response envelope, inline query/path params, custom-type fields, and **error-status tracing** (is each spec `errors[]` row backed by a Go sentinel, and every traced sentinel documented?, `go-scan-patterns.md §Error Tracing`):
+### verify-L2 · Independent drift verifier
+Dispatch a verifier that re-reads the Go source **and** the api-spec independently and judges only the drift the script could not decide (the `NOTE` spots): unconfident struct matches, the response envelope, inline query/path params, custom-type fields, and **error-status tracing** (is each spec `errors[]` row backed by a Go sentinel, and every traced sentinel documented?, `go-scan-patterns.md §Error Tracing`). Spawn a read-only sub-agent with this prompt:
 ```
-Agent(subagent_type: "fresh-eyes", description: "verify api-spec drift", prompt: """
 # Role: API-Spec Drift Verifier
 Read first: <SKILL_DIR>/references/openapi-doc-verifier.md
 SKILL_DIR = <skill base dir>
@@ -72,9 +71,8 @@ fields/routes the script could not confidently compare.
 CLAUDE.md (the relevant section)
 
 End with Status: DONE | DONE_WITH_CONCERNS | BLOCKED
-""")
 ```
-`SKILL_DIR` is mandatory: without it the verifier cannot read its role file and fails silently. The verifier is read-only by tool grant, `fresh-eyes` holds no write/edit (harness without that type → `general-purpose`, read-only by instruction only) → it reports drift findings; **reconciliation of `docs/api/*.yaml` is the `api-spec` skill's** (re-run `speccheck.py` to confirm nothing regressed). Do not auto-redispatch; if findings are deep, offer a second fresh-eyes round (default yes), then escalate.
+`SKILL_DIR` is mandatory: without it the verifier cannot read its role file and fails silently. The verifier is read-only (no write, edit, or commit) → it reports drift findings; **reconciliation of `docs/api/*.yaml` is the `api-spec` skill's** (re-run `speccheck.py` to confirm nothing regressed). Do not auto-redispatch; if findings are deep, offer a second independent round (default yes), then escalate.
 
 ### verify-L3 · Completeness sweep (omission critic)
 L1/L2 inspect endpoints they *matched*; L3 catches what was **silently un-compared** on either side. Re-derive **both inventories yourself**: the full route list straight from the router-setup file, and the full endpoint-file list from `docs/api/`: then confirm:

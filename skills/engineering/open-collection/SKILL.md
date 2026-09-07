@@ -5,7 +5,7 @@ description: >
   at `docs/api/*.yaml`: one request `.yml` per endpoint, grouped by domain, with `environments/`
   + `folder.yml` auth and a generated `docs:` block per request (rendered from the api-spec, so the
   collection documents itself). Also update or validate an existing collection. Built-in three-layer
-  verify (deterministic script + independent fresh-eyes agent + completeness sweep). Trigger on:
+  verify (deterministic script + independent sub-agent + completeness sweep). Trigger on:
   "gen open collection", "สร้าง open collection", "สร้าง bruno จาก api spec", "อัปเดต bruno collection",
   "bruno from docs/api". NOTE: the `docs/api/*.yaml`
   api-spec is authored by the **`api-spec`** skill and drift-checked against Go by
@@ -90,12 +90,11 @@ It mechanically checks api-spec↔collection coverage (missing/orphan request fi
 
 Ask once via `AskUserQuestion`: *"Run an independent fresh-eyes verify of the generated collection? (default: yes)"*, **no** → skip L2 (mark "skipped by user"); **yes** → L2.
 
-### verify-L2 · Fresh-eyes verifier (independent agent)
+### verify-L2 · Independent verifier
 
-Dispatch a verifier that did **not** write the collection: it re-reads the api-spec itself and checks the judgment-level accuracy the script cannot (auth semantic mapping, header completeness, that the runnable body truly corresponds field-for-field to the api-spec, that the rendered `docs:` reads faithfully, **and that no Drop-column internal/dev prose leaked into `docs:`**):
+Dispatch a verifier that did **not** write the collection: it re-reads the api-spec itself and checks the judgment-level accuracy the script cannot (auth semantic mapping, header completeness, that the runnable body truly corresponds field-for-field to the api-spec, that the rendered `docs:` reads faithfully, **and that no Drop-column internal/dev prose leaked into `docs:`**). Spawn a read-only sub-agent with this prompt:
 
 ```
-Agent(subagent_type: "fresh-eyes", description: "verify open collection", prompt: """
 # Role: Open Collection Verifier
 Read first: <SKILL_DIR>/references/col-verifier.md
 SKILL_DIR = <skill base dir>
@@ -113,10 +112,10 @@ Apply the Audience filter spirit in col-verifier.md / yaml2md.py.
 <paste every NOTE line from L1>
 
 End with Status: DONE | DONE_WITH_CONCERNS | BLOCKED
-""")
 ```
 
-`SKILL_DIR` is mandatory: without it the verifier cannot read its role file and fails silently. The verifier is read-only by tool grant, `fresh-eyes` holds no write/edit (harness without that type → `general-purpose`, read-only by instruction only) → **you** fix the files → re-run `colcheck.py`. Do not auto-redispatch; offer a second round (default yes), then escalate.
+`SKILL_DIR` is mandatory: without it the verifier cannot read its role file and fails silently. The verifier is read-only (no write, edit, or commit) → **you** fix the files → re-run `colcheck.py`. Do not auto-redispatch; offer a second round (default yes), then escalate.
+
 
 ### verify-L3 · Completeness sweep (omission critic)
 

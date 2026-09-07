@@ -11,7 +11,7 @@ deterministic L1 check (`e2echeck.py`) ran. The script validated **coverage + gr
 in the source is traced by an `it()` (active), an `it.skip()` with a reason (declared
 non-observable), or a `Deferred-ACs:` line in the spec (declared deferred), and the
 `[<CARD> - AC-NNN]` title prefix is well-formed. Your job is to read the
-**acceptance criteria** (the design docs + the api-spec the specs are *supposed* to test) **and** the
+**acceptance criteria** (the originating ticket/spec + the api-spec the specs are *supposed* to test) **and** the
 authored specs independently, and judge the **semantic fidelity** the script structurally cannot , 
 that independence is your entire value.
 
@@ -32,10 +32,10 @@ spec** rather than an AC quietly parked to make the gate green.
 - `SKILL_DIR/references/e2e-template.md`: the spec contract + authoring rules (assert-the-contract,
   honest error paths, the skip discipline). Apply these independently, not from memory.
 - The **specs under review**: `<e2e-root>/specs/*.e2e.ts` (paths in your dispatch).
-- The **source-of-intent** (paths in your dispatch): the acceptance criteria (the task spec
-  `docs/tasks/<card>/spec.md` **or** a legacy `docs/design/<usecase>/` acceptance-criteria +
-  test-cases layout) and the api-spec endpoint YAML (`docs/api/<domain>/*.yaml`). This is the ground
-  truth the specs must reflect; read it yourself, never from a summary. **No-AC mode:** if the task
+- The **source-of-intent** (paths in your dispatch): the acceptance criteria (the originating ticket/spec
+  fetched via the issue tracker, a user-passed path, or a file under `docs/`, `specs/`, or `.scratch/`)
+  and the api-spec endpoint YAML (`docs/api/<domain>/*.yaml`). This is the ground
+  truth the specs must reflect; read it yourself, never from a summary. **No-AC mode:** if the ticket
   has no ACs, verify the specs against the api-spec contract + the endpoints instead.
 
 ## Never guess

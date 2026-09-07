@@ -116,16 +116,15 @@ report that no advisor was available and the findings had no outside reader.
 
 ## Ground 1: requirement fidelity (start here)
 
-`docs/tasks/<card>/spec.md` is an **interpretation**. If it misread the card or an upstream
+The originating ticket or spec is an **interpretation**. If it misread the issue or an upstream
 contract, the code implements that misunderstanding faithfully, every test agrees with it, and
 every gate is green. This is the deepest defect class and the only one no gate can reach, the
 source of truth for it is `docs/knowledge/`, which holds the ingested originals: contracts,
 verbatim requirement captures, and their provenance.
 
 ```
-code ← api-spec ← spec.md ← docs/knowledge/{contracts,requirements}/ ← the card
+code ← api-spec ← ticket/spec ← docs/knowledge/{contracts,requirements}/ ← the originating issue
 ```
-
 The mechanical half: every enum, code, and constant the contract promises that appears **nowhere**
 in the ingested originals. Each hit was invented downstream by a person or a model, and no test
 ever disagreed with it:
@@ -151,7 +150,7 @@ Ask, for each rule the code enforces:
 - **Did a conditional get flattened?** "Required when X" becoming "required", "at most one of"
   becoming "exactly one", an optional field treated as mandatory: each passes review and changes
   behaviour.
-- **Did a decision drift from what was decided?** `spec.md` records decisions with dates. Check the
+- **Did a decision drift from what was decided?** The ticket/spec records decisions with dates. Check the
   code matches the *latest* one; a superseded decision that stayed implemented is invisible to
   every gate.
 - **Is the ingested copy stale?** Check `fetched_at`/version against the live source. A contract
@@ -257,7 +256,7 @@ One line on the advisor gate: consulted (and what it changed), or not available 
 | Thought | Reality |
 |---|---|
 | "All ACs pass, the card is done" | The ACs are the questions someone thought to ask. This hunts the rest. |
-| "The spec says so" | The spec is an interpretation of the card. Ground 1 exists because it can be wrong. |
+| "The spec says so" | The spec is an interpretation of the originating issue. Ground 1 exists because it can be wrong. |
 | "That error code can't happen in practice" | It is in the contract. Either prove it is unreachable, or test it. |
 | "Money maths is simple" | Rounding, scale, and wire format each have a boundary, and money is where a boundary costs. |
 | "I'll fix it while I'm here" | Confirm, write reproduce + proposed fix, hand to the BUG flow, keep hunting. Applying the patch mid-hunt loses both threads. |
