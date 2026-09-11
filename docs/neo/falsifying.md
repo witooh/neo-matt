@@ -11,8 +11,8 @@ Type `/falsifying`, or the agent reaches for it when a gate was written/changed,
 | Job | Reach for |
 | --- | --- |
 | Can this gate go red? | `falsifying` |
-| Latent product defects | [bug-hunter](../../skills/engineering/bug-hunter/SKILL.md) |
-| Live HTTP abuse | [attack-test](../../skills/engineering/attack-test/SKILL.md) |
+| Latent product defects | [bug-hunter](../../skills/neo/bug-hunter/SKILL.md) |
+| Live HTTP abuse | [attack-test](../../skills/neo/attack-test/SKILL.md) |
 | A reported bug | [diagnosing-bugs](../../skills/engineering/diagnosing-bugs/SKILL.md) |
 
 ## Common questions

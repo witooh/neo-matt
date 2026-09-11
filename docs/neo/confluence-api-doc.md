@@ -8,7 +8,7 @@ The defining constraint is **caller-facing only**. Ticket framing, evidence path
 
 Type `/confluence-api-doc` on "publish api doc" / "อัปเดต api doc ไป confluence".
 
-Missing spec: author with [api-spec](../../skills/engineering/api-spec/SKILL.md) first. Ad-hoc Confluence CLI: [atlassian](../../skills/engineering/atlassian/SKILL.md) (view-only for pages).
+Missing spec: author with [api-spec](../../skills/neo/api-spec/SKILL.md) first. Ad-hoc Confluence CLI: [atlassian](../../skills/neo/atlassian/SKILL.md) (view-only for pages).
 
 ## Prerequisites
 

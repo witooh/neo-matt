@@ -11,7 +11,7 @@ Type `/openapi-doc`, or the agent reaches for it on "check go against api-spec" 
 | What you need | Reach for |
 | --- | --- |
 | Drift report | `openapi-doc` |
-| Author or reconcile YAML | [api-spec](../../skills/engineering/api-spec/SKILL.md) |
+| Author or reconcile YAML | [api-spec](../../skills/neo/api-spec/SKILL.md) |
 
 ## Prerequisites
 

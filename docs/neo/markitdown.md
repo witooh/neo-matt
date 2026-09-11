@@ -11,7 +11,7 @@ Type `/markitdown` or `/ingest`, or the agent reaches for it when a later step n
 | What you need | Reach for |
 | --- | --- |
 | A JIRA card, Confluence page, URL, or file turned into `docs/knowledge/` | `markitdown` |
-| Ad-hoc Jira/Confluence CLI (view, transition, search) | [atlassian](../../skills/engineering/atlassian/SKILL.md) |
+| Ad-hoc Jira/Confluence CLI (view, transition, search) | [atlassian](../../skills/neo/atlassian/SKILL.md) |
 | An interview that builds `CONTEXT.md` | [grill-with-docs](../../skills/engineering/grill-with-docs/SKILL.md) |
 | External facts from official docs, not a card | [research](../../skills/engineering/research/SKILL.md) |
 
@@ -46,4 +46,4 @@ No. Add a new entry and mark the old one superseded. The validator field is how 
 
 ## Where it fits
 
-An **on-ramp**. Ingest, then merge onto the main flow at [grill-with-docs](../../skills/engineering/grill-with-docs/SKILL.md) or [to-spec](../../skills/engineering/to-spec/SKILL.md). Neighbour: [atlassian](../../skills/engineering/atlassian/SKILL.md) is the CLI, this skill is the durable file. Map: [ask-matt](../../skills/engineering/ask-matt/SKILL.md).
+An **on-ramp**. Ingest, then merge onto the main flow at [grill-with-docs](../../skills/engineering/grill-with-docs/SKILL.md) or [to-spec](../../skills/engineering/to-spec/SKILL.md). Neighbour: [atlassian](../../skills/neo/atlassian/SKILL.md) is the CLI, this skill is the durable file. Map: [ask-matt](../../skills/engineering/ask-matt/SKILL.md).

@@ -15,7 +15,7 @@ neo-matt → Kiro installer
 
 Copies promoted skills into a Kiro configuration directory so they appear
 as /<name> slash commands. Skills come from .claude-plugin/plugin.json
-(engineering/ + productivity/ only).
+(engineering/, productivity/, and neo/).
 
 Does not install agents or SessionStart hooks. Does not add a root
 plugin.json (that would route omp through Agent Plugins 1.0 and drop
@@ -81,7 +81,7 @@ skills="$(python3 - "$PLUGIN" "$REPO" "$kiro_root/skills" <<'PY'
 import json, os, shutil, sys
 
 plugin_path, repo, dest_root = sys.argv[1], sys.argv[2], sys.argv[3]
-buckets = {"engineering", "productivity"}
+buckets = {"engineering", "productivity", "neo"}
 manifest = json.load(open(plugin_path, encoding="utf-8"))
 seen = set()
 count = 0

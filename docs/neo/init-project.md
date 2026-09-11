@@ -8,7 +8,7 @@ The defining constraint is **skeleton only**. First domain is `/implement` (`tdd
 
 Type `/init-project` on "สร้าง service ใหม่" / "scaffold a Go service".
 
-Existing service to restructure: [migrate-project](../../skills/engineering/migrate-project/SKILL.md).
+Existing service to restructure: [migrate-project](../../skills/neo/migrate-project/SKILL.md).
 
 ## Prerequisites
 

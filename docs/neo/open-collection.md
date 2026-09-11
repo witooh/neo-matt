@@ -8,7 +8,7 @@ The defining constraint is **self-documenting from the spec**. `docs:` is `yaml2
 
 Type `/open-collection`, or the agent reaches for it on "สร้าง bruno จาก api spec".
 
-Missing `docs/api/`: stop and author with [api-spec](../../skills/engineering/api-spec/SKILL.md) first.
+Missing `docs/api/`: stop and author with [api-spec](../../skills/neo/api-spec/SKILL.md) first.
 
 ## Prerequisites
 
@@ -32,4 +32,4 @@ Audience filter. Bruno docs are for callers, not the owning team's tickets.
 
 ## Where it fits
 
-After the contract exists, as a runnable collection. Neighbour: [confluence-api-doc](../../skills/engineering/confluence-api-doc/SKILL.md) publishes the same spec. Map: [ask-matt](../../skills/engineering/ask-matt/SKILL.md).
+After the contract exists, as a runnable collection. Neighbour: [confluence-api-doc](../../skills/neo/confluence-api-doc/SKILL.md) publishes the same spec. Map: [ask-matt](../../skills/engineering/ask-matt/SKILL.md).

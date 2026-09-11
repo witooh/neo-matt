@@ -12,8 +12,8 @@ Type `/http-audit-log`, or the agent reaches for it on "เพิ่ม audit lo
 | --- | --- |
 | Per-request HTTP `audit_log` | `http-audit-log` |
 | `created_by` / `updated_by` actor strings | not this skill |
-| HTTP AC tests | [e2e-playwright](../../skills/engineering/e2e-playwright/SKILL.md) |
-| Empty Go skeleton | [init-project](../../skills/engineering/init-project/SKILL.md) |
+| HTTP AC tests | [e2e-playwright](../../skills/neo/e2e-playwright/SKILL.md) |
+| Empty Go skeleton | [init-project](../../skills/neo/init-project/SKILL.md) |
 
 ## Prerequisites
 

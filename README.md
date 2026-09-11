@@ -4,7 +4,7 @@ Fork of [mattpocock/skills](https://github.com/mattpocock/skills) plus neo domai
 
 **Process is Matt's.** Work travels `grill-with-docs` → `to-spec` / `to-tickets` → `implement` (`tdd` then `code-review`). The router is [`ask-matt`](./skills/engineering/ask-matt/SKILL.md). This fork does not ship `using-neo`.
 
-**Neo adds domain skills**, not a second main flow: HTTP/API/e2e, Jira/GitLab, Go scaffold, SIT inspect. They live under `skills/engineering/` like every other engineering skill.
+**Neo adds domain skills**, not a second main flow: HTTP/API/e2e, Jira/GitLab, Go scaffold, SIT inspect. They live under `skills/neo/`.
 
 Upstream updates: project-scope omp skill `sync-upstream` (`.agents/skills/`). Releases: `ship`.
 
@@ -91,22 +91,33 @@ Skills used daily for code work.
 - **[code-review](./skills/engineering/code-review/SKILL.md)**: Two-axis review of the diff since a fixed point: **Standards** (does it follow the repo's coding standards, plus a Fowler smell baseline?) and **Spec** (does it faithfully implement the originating issue/spec?), run as parallel sub-agents so neither pollutes the other.
 - **[resolving-merge-conflicts](./skills/engineering/resolving-merge-conflicts/SKILL.md)**: Work through an in-progress git merge or rebase conflict hunk by hunk, resolving by intent traced to each side's primary source, then finish the operation (never `--abort`).
 - **[wizard](./skills/engineering/wizard/SKILL.md)**: Generate an interactive bash wizard that walks a human through steps only they can perform: provisioning infrastructure, setting up credentials or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off migration or cutover.
-- **[markitdown](./skills/engineering/markitdown/SKILL.md)**: Ingest a JIRA card, Confluence page, URL, or file into `docs/knowledge/` as a curated, cited entry.
-- **[atlassian](./skills/engineering/atlassian/SKILL.md)**: Jira and Confluence CLI via `acli`: command map, JQL, and write-safety gates.
-- **[gitlab](./skills/engineering/gitlab/SKILL.md)**: GitLab MRs and CI via `glab`: create, update, read, comment, inspect. Not a code review.
-- **[api-spec](./skills/engineering/api-spec/SKILL.md)**: Author the custom-YAML contract at `docs/api/`. Spec-first producer for the HTTP doc chain.
-- **[openapi-doc](./skills/engineering/openapi-doc/SKILL.md)**: Read-only drift report: Go source vs `docs/api/`.
-- **[open-collection](./skills/engineering/open-collection/SKILL.md)**: Generate a runnable Bruno OpenCollection from the api-spec.
-- **[confluence-api-doc](./skills/engineering/confluence-api-doc/SKILL.md)**: Publish the api-spec to Confluence as caller-facing pages.
-- **[e2e-playwright](./skills/engineering/e2e-playwright/SKILL.md)**: AC-driven HTTP e2e tests on a Jest + Playwright-request harness.
-- **[http-audit-log](./skills/engineering/http-audit-log/SKILL.md)**: Port one-row gin `audit_log` (outermost middleware, fail-soft persist) onto a hexagonal service.
-- **[falsifying](./skills/engineering/falsifying/SKILL.md)**: Attack a green gate to see whether it can go red.
-- **[bug-hunter](./skills/engineering/bug-hunter/SKILL.md)**: Hunt product defects no acceptance criterion asked about.
-- **[attack-test](./skills/engineering/attack-test/SKILL.md)**: Fire live HTTP abuse paths after the happy path works.
-- **[init-project](./skills/engineering/init-project/SKILL.md)**: Scaffold an empty Go hexagonal service that serves `/health`.
-- **[migrate-project](./skills/engineering/migrate-project/SKILL.md)**: Restructure an existing Go service to that blueprint, slice by slice.
-- **[neo-core-sit](./skills/engineering/neo-core-sit/SKILL.md)**: Inspect Core SIT logs, Argo, and Postgres secrets (read-only).
-- **[neo-aux-sit](./skills/engineering/neo-aux-sit/SKILL.md)**: Inspect Auxiliary SIT logs, Argo, and Postgres secrets (read-only).
+
+### Neo
+
+Fork-owned domain skills. Process stays Matt's; this bucket is on-disk ownership.
+
+**User-invoked**
+
+None yet.
+
+**Model-invoked**
+
+- **[markitdown](./skills/neo/markitdown/SKILL.md)**: Ingest a JIRA card, Confluence page, URL, or file into `docs/knowledge/` as a curated, cited entry.
+- **[atlassian](./skills/neo/atlassian/SKILL.md)**: Jira and Confluence CLI via `acli`: command map, JQL, and write-safety gates.
+- **[gitlab](./skills/neo/gitlab/SKILL.md)**: GitLab MRs and CI via `glab`: create, update, read, comment, inspect. Not a code review.
+- **[api-spec](./skills/neo/api-spec/SKILL.md)**: Author the custom-YAML contract at `docs/api/`. Spec-first producer for the HTTP doc chain.
+- **[openapi-doc](./skills/neo/openapi-doc/SKILL.md)**: Read-only drift report: Go source vs `docs/api/`.
+- **[open-collection](./skills/neo/open-collection/SKILL.md)**: Generate a runnable Bruno OpenCollection from the api-spec.
+- **[confluence-api-doc](./skills/neo/confluence-api-doc/SKILL.md)**: Publish the api-spec to Confluence as caller-facing pages.
+- **[e2e-playwright](./skills/neo/e2e-playwright/SKILL.md)**: AC-driven HTTP e2e tests on a Jest + Playwright-request harness.
+- **[http-audit-log](./skills/neo/http-audit-log/SKILL.md)**: Port one-row gin `audit_log` (outermost middleware, fail-soft persist) onto a hexagonal service.
+- **[falsifying](./skills/neo/falsifying/SKILL.md)**: Attack a green gate to see whether it can go red.
+- **[bug-hunter](./skills/neo/bug-hunter/SKILL.md)**: Hunt product defects no acceptance criterion asked about.
+- **[attack-test](./skills/neo/attack-test/SKILL.md)**: Fire live HTTP abuse paths after the happy path works.
+- **[init-project](./skills/neo/init-project/SKILL.md)**: Scaffold an empty Go hexagonal service that serves `/health`.
+- **[migrate-project](./skills/neo/migrate-project/SKILL.md)**: Restructure an existing Go service to that blueprint, slice by slice.
+- **[neo-core-sit](./skills/neo/neo-core-sit/SKILL.md)**: Inspect Core SIT logs, Argo, and Postgres secrets (read-only).
+- **[neo-aux-sit](./skills/neo/neo-aux-sit/SKILL.md)**: Inspect Auxiliary SIT logs, Argo, and Postgres secrets (read-only).
 
 ### Productivity
 

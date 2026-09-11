@@ -12,7 +12,7 @@ Type `/e2e-playwright` on "write e2e" / "รัน e2e" / "e2e ตาม AC".
 | --- | --- |
 | HTTP AC tests | `e2e-playwright` |
 | Unit / logic tests | [tdd](../../skills/engineering/tdd/SKILL.md) |
-| Wire contract | [api-spec](../../skills/engineering/api-spec/SKILL.md) |
+| Wire contract | [api-spec](../../skills/neo/api-spec/SKILL.md) |
 
 ## Prerequisites
 

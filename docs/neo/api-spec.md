@@ -11,9 +11,9 @@ Type `/api-spec`, or the agent reaches for it when an HTTP endpoint needs a cont
 | What you need | Reach for |
 | --- | --- |
 | Author or update `docs/api/*.yaml` | `api-spec` |
-| A drift report only (no writes) | [openapi-doc](../../skills/engineering/openapi-doc/SKILL.md) |
-| Runnable Bruno requests | [open-collection](../../skills/engineering/open-collection/SKILL.md) |
-| Confluence pages for callers | [confluence-api-doc](../../skills/engineering/confluence-api-doc/SKILL.md) |
+| A drift report only (no writes) | [openapi-doc](../../skills/neo/openapi-doc/SKILL.md) |
+| Runnable Bruno requests | [open-collection](../../skills/neo/open-collection/SKILL.md) |
+| Confluence pages for callers | [confluence-api-doc](../../skills/neo/confluence-api-doc/SKILL.md) |
 
 ## Prerequisites
 

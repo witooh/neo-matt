@@ -6,7 +6,7 @@ The defining constraint is **no baked AWS profile**. Missing `NEO_CORE_AWS_PROFI
 
 ## When to reach for it
 
-Type `/neo-core-sit` on "ดู log core sit" / "หา postgres บน SIT". Auxiliary cluster: [neo-aux-sit](../../skills/engineering/neo-aux-sit/SKILL.md).
+Type `/neo-core-sit` on "ดู log core sit" / "หา postgres บน SIT". Auxiliary cluster: [neo-aux-sit](../../skills/neo/neo-aux-sit/SKILL.md).
 
 ## Prerequisites
 

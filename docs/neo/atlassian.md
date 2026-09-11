@@ -11,9 +11,9 @@ Type `/atlassian`, or the agent reaches for it on an ad-hoc Jira/Confluence CLI 
 | What you need | Reach for |
 | --- | --- |
 | View, search, transition, comment, sprint ops | `atlassian` |
-| A card turned into `docs/knowledge/` | [markitdown](../../skills/engineering/markitdown/SKILL.md) |
+| A card turned into `docs/knowledge/` | [markitdown](../../skills/neo/markitdown/SKILL.md) |
 | Generated API docs published to Confluence | `confluence-api-doc` (when that skill is in this repo) |
-| GitLab MRs | [gitlab](../../skills/engineering/gitlab/SKILL.md) |
+| GitLab MRs | [gitlab](../../skills/neo/gitlab/SKILL.md) |
 
 ## Prerequisites
 
@@ -42,4 +42,4 @@ Those links are test artifacts. This skill treats `type.name == "Tests"` as abse
 
 ## Where it fits
 
-A **standalone** CLI skill, off the main flow. Neighbour: [markitdown](../../skills/engineering/markitdown/SKILL.md) is ingest, this is live ops. Map: [ask-matt](../../skills/engineering/ask-matt/SKILL.md).
+A **standalone** CLI skill, off the main flow. Neighbour: [markitdown](../../skills/neo/markitdown/SKILL.md) is ingest, this is live ops. Map: [ask-matt](../../skills/engineering/ask-matt/SKILL.md).

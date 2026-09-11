@@ -13,7 +13,7 @@ Type `/gitlab`, or the agent reaches for it on a GitLab MR URL or "สร้า�
 | Create, update, read, list, approve, CI logs | `gitlab` |
 | Standards + Spec (+ Security) review of a diff | [code-review](../../skills/engineering/code-review/SKILL.md) |
 | A red pipeline you do not understand | [diagnosing-bugs](../../skills/engineering/diagnosing-bugs/SKILL.md) |
-| Jira/Confluence CLI | [atlassian](../../skills/engineering/atlassian/SKILL.md) |
+| Jira/Confluence CLI | [atlassian](../../skills/neo/atlassian/SKILL.md) |
 
 A bare MR URL with no verb is **MR Read**.
 

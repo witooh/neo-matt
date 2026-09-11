@@ -6,7 +6,7 @@ The defining constraint is **fail fast on missing `NEO_AUX_AWS_PROFILE`**. Never
 
 ## When to reach for it
 
-Type `/neo-aux-sit` on "ดู log aux sit" / "debug auxiliary". Core cluster: [neo-core-sit](../../skills/engineering/neo-core-sit/SKILL.md).
+Type `/neo-aux-sit` on "ดู log aux sit" / "debug auxiliary". Core cluster: [neo-core-sit](../../skills/neo/neo-core-sit/SKILL.md).
 
 ## Prerequisites
 

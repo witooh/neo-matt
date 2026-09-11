@@ -2,15 +2,14 @@
 set -euo pipefail
 
 # omp-plugins discovers only immediate children of skills/ that contain
-# SKILL.md (no recursion). This fork keeps Matt's bucket layout
-# (skills/engineering/<name>/) and adds a promoted-name symlink at
-# skills/<name> so omp can load the same files. Targets stay inside the
-# plugin root.
+# SKILL.md (no recursion). Matt's buckets stay. Fork-owned skills live
+# under skills/neo/<name>/. A promoted-name symlink at skills/<name>
+# lets omp load the same files. Targets stay inside the plugin root.
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 PLUGIN="$REPO/.claude-plugin/plugin.json"
 SKILLS="$REPO/skills"
-BUCKETS="engineering productivity misc in-progress deprecated"
+BUCKETS="engineering productivity neo misc in-progress deprecated"
 
 if ! command -v python3 >/dev/null; then
   echo "error: python3 required" >&2
@@ -21,7 +20,7 @@ python3 - "$PLUGIN" "$SKILLS" <<'PY'
 import json, os, sys
 
 plugin_path, skills_dir = sys.argv[1], sys.argv[2]
-buckets = {"engineering", "productivity", "misc", "in-progress", "deprecated"}
+buckets = {"engineering", "productivity", "neo", "misc", "in-progress", "deprecated"}
 manifest = json.load(open(plugin_path, encoding="utf-8"))
 wanted = []
 for rel in manifest["skills"]:

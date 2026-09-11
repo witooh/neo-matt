@@ -30,13 +30,13 @@ This repo is a fork of [mattpocock/skills](https://github.com/mattpocock/skills)
 
 **Process is Matt's.** The router is [`ask-matt`](./skills/engineering/ask-matt/SKILL.md). Work travels `grill-with-docs` → `to-spec` / `to-tickets` → `implement` (`tdd` then `code-review`). Do not import `using-neo` as an orchestrator, do not inject it at session start, and do not land neo graph nodes (`neo-builder`, `neo-author`, `neo-e2e`, `fresh-eyes`) or neo `hooks/` / `extensions/`.
 
-**Neo adds domain skills, not a second main flow.** They live under `skills/engineering/<name>/` like every other engineering skill. No `skills/neo/` bucket. Default invocation is model-invoked so `/implement` can reach them. `ask-matt` must name every one (on-ramp, health, or standalone). A neo skill it never mentions is a router that lies.
+**Neo adds domain skills, not a second main flow.** They live under `skills/neo/<name>/`. Default invocation is model-invoked so `/implement` can reach them. `ask-matt` must name every one (on-ramp, health, or standalone). A neo skill it never mentions is a router that lies. Matt's five-bucket list above stays the merge surface; this overlay adds `neo/` as a promoted fork bucket.
 
 Do not copy method skills from neo-plugin. They are already here: `tdd`, `diagnosing-bugs`, `research`, `prototype`, `domain-modeling`, `codebase-design`, `resolving-merge-conflicts`, `grilling`.
 
 ## Neo-owned skills to land
 
-`falsifying`, `bug-hunter`, `attack-test`, `api-spec`, `e2e-playwright`, `openapi-doc`, `open-collection`, `confluence-api-doc`, `markitdown`, `init-project`, `migrate-project`, `atlassian`, `gitlab`, `neo-core-sit`, `neo-aux-sit`.
+`falsifying`, `bug-hunter`, `attack-test`, `api-spec`, `e2e-playwright`, `openapi-doc`, `open-collection`, `confluence-api-doc`, `markitdown`, `init-project`, `migrate-project`, `atlassian`, `gitlab`, `neo-core-sit`, `neo-aux-sit`, `http-audit-log`.
 
 Where they sit on the `ask-matt` map:
 
@@ -55,12 +55,12 @@ One skill. Keep Matt's file: spec lookup is the originating issue (via `docs/age
 
 Copying `SKILL.md` is not enough:
 
-1. `skills/engineering/<name>/` including `assets/` and `references/`.
+1. `skills/neo/<name>/` including `assets/` and `references/`. A skill named `neo` is forbidden (bucket collision).
 2. `agents/openai.yaml` (Codex metadata; `policy.allow_implicit_invocation: false` only if user-invoked).
 3. Rewrite every em-dash in the imported prose. No blind character substitution. Neo-plugin prose is full of them.
 4. Skill-tool calls stay name-based. Strip `using-neo` / graph-node / `docs/tasks/<key>/` orchestrator assumptions. Intent and acceptance criteria come from Matt's sources: the originating issue/ticket (`docs/agents/issue-tracker.md`, including `.scratch/<feature>/issues/`), a user-passed path, or a spec file under `docs/`, `specs/`, or `.scratch/`.
-5. `skills/engineering/README.md`, top-level `README.md`, `.claude-plugin/plugin.json` and `.grok-plugin/plugin.json` `skills` arrays (same paths).
-6. `docs/engineering/<name>.md` following [.agents/writing-docs.md](./.agents/writing-docs.md). Neo-owned pages are in-repo only: do not point them at aihero.dev; relative repo links are allowed.
+5. `skills/neo/README.md`, top-level `README.md` (Neo section), `.claude-plugin/plugin.json` and `.grok-plugin/plugin.json` `skills` arrays (same paths, `./skills/neo/<name>`).
+6. `docs/neo/<name>.md`. Overlay owns neo docs: in-repo only, do not point them at aihero.dev, relative repo links are allowed. Do not edit `.agents/writing-docs.md` for neo pages.
 7. Update `ask-matt` in the same change.
 8. `scripts/link-skills.sh` after add, remove, or rename.
 9. `scripts/sync-agent-plugin-layout.sh` (promoted-name symlink at `skills/<name>` so omp-plugins sees one-level `SKILL.md`).
@@ -84,7 +84,7 @@ Do not add a root `plugin.json`. omp classifies that file as Agent Plugins 1.0, 
 
 omp runtime loads a plugin only when `package.json` has `omp` or `pi` (`getEnabledPlugins` skips the rest). Keep `"omp": {}` even with no extensions. Keyword `omp-package` is not that gate.
 
-omp-plugins discovers only **immediate** children of `skills/` that contain `SKILL.md` (no recursion). Matt's buckets stay. `scripts/sync-agent-plugin-layout.sh` writes `skills/<name> -> <bucket>/<name>` for every promoted path in `.claude-plugin/plugin.json`. Those symlinks stay inside the plugin root.
+omp-plugins discovers only **immediate** children of `skills/` that contain `SKILL.md` (no recursion). Matt's buckets stay. `neo/` is the fork bucket. `scripts/sync-agent-plugin-layout.sh` writes `skills/<name> -> <bucket>/<name>` for every promoted path in `.claude-plugin/plugin.json`. Those symlinks stay inside the plugin root.
 
 omp install (no using-neo session extension):
 

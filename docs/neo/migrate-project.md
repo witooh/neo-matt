@@ -6,7 +6,7 @@ The defining constraint is **orchestrate, never move code yourself**. Specialist
 
 ## When to reach for it
 
-Type `/migrate-project` on "refactor ให้เหมือน account-service". Empty dir: [init-project](../../skills/engineering/init-project/SKILL.md). New domain after migrate: `/implement`.
+Type `/migrate-project` on "refactor ให้เหมือน account-service". Empty dir: [init-project](../../skills/neo/init-project/SKILL.md). New domain after migrate: `/implement`.
 
 ## Prerequisites
 
