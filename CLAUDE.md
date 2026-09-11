@@ -41,7 +41,7 @@ Do not copy method skills from neo-plugin. They are already here: `tdd`, `diagno
 Where they sit on the `ask-matt` map:
 
 - **On-ramps:** ingest a source → `markitdown`; new Go service → `init-project`; restructure a Go service → `migrate-project`. Then merge onto the main flow.
-- **During / after `/implement` (HTTP):** author `docs/api/` with `api-spec` before the handler; `openapi-doc` for drift; `open-collection` / `confluence-api-doc` as publish steps; HTTP-observable ACs → `e2e-playwright`.
+- **During / after `/implement` (HTTP):** author `docs/api/` with `api-spec` before the handler; `openapi-doc` for drift; `open-collection` / `confluence-api-doc` as publish steps; HTTP-observable ACs → `e2e-playwright`; per-request gin `audit_log` → `http-audit-log`.
 - **Codebase health (already green):** `falsifying` (the gate), `bug-hunter` (the product), `attack-test` (live HTTP). Same neighbourhood as `improve-codebase-architecture`, different target.
 - **Standalone:** `atlassian`, `gitlab`, `neo-core-sit`, `neo-aux-sit`.
 

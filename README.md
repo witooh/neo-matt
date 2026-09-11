@@ -54,7 +54,7 @@ Once per target repo, run `/setup-matt-pocock-skills` so issue tracker, triage l
 |---|---|
 | Main flow | `grill-with-docs`, `to-spec`, `to-tickets`, `implement`, `tdd`, `code-review` |
 | On-ramps | `triage`, `diagnosing-bugs`, `wayfinder`, `markitdown`, `init-project`, `migrate-project` |
-| HTTP / contract | `api-spec`, `openapi-doc`, `open-collection`, `confluence-api-doc`, `e2e-playwright` |
+| HTTP / contract | `api-spec`, `openapi-doc`, `open-collection`, `confluence-api-doc`, `e2e-playwright`, `http-audit-log` |
 | Already green | `falsifying`, `bug-hunter`, `attack-test`, `improve-codebase-architecture` |
 | Ops | `atlassian`, `gitlab`, `neo-core-sit`, `neo-aux-sit` |
 
@@ -99,6 +99,7 @@ Skills used daily for code work.
 - **[open-collection](./skills/engineering/open-collection/SKILL.md)**: Generate a runnable Bruno OpenCollection from the api-spec.
 - **[confluence-api-doc](./skills/engineering/confluence-api-doc/SKILL.md)**: Publish the api-spec to Confluence as caller-facing pages.
 - **[e2e-playwright](./skills/engineering/e2e-playwright/SKILL.md)**: AC-driven HTTP e2e tests on a Jest + Playwright-request harness.
+- **[http-audit-log](./skills/engineering/http-audit-log/SKILL.md)**: Port one-row gin `audit_log` (outermost middleware, fail-soft persist) onto a hexagonal service.
 - **[falsifying](./skills/engineering/falsifying/SKILL.md)**: Attack a green gate to see whether it can go red.
 - **[bug-hunter](./skills/engineering/bug-hunter/SKILL.md)**: Hunt product defects no acceptance criterion asked about.
 - **[attack-test](./skills/engineering/attack-test/SKILL.md)**: Fire live HTTP abuse paths after the happy path works.

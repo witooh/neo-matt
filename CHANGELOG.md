@@ -1,5 +1,11 @@
 # neo-matt
 
+## 1.1.0
+
+### Minor Changes
+
+- Add `http-audit-log`, a model-invoked skill that ports account-service MR 196 onto other Go hexagonal gin+sqlc services: one `audit_log` row per inbound HTTP request, outermost gin middleware, fail-soft persist. It does not port the same MR's `mobile:<customerId>` actor format.
+
 ## 1.0.4
 
 ### Patch Changes

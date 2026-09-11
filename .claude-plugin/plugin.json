@@ -1,6 +1,6 @@
 {
   "name": "neo-matt",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Matt Pocock skills plus neo domain skills. Process is Matt's (ask-matt, grill-with-docs, implement).",
   "author": {
     "name": "Witoo Harianto",
@@ -45,6 +45,7 @@
     "./skills/engineering/open-collection",
     "./skills/engineering/confluence-api-doc",
     "./skills/engineering/e2e-playwright",
+    "./skills/engineering/http-audit-log",
     "./skills/engineering/falsifying",
     "./skills/engineering/bug-hunter",
     "./skills/engineering/attack-test",

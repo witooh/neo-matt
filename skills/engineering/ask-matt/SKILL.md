@@ -25,7 +25,7 @@ The route most work travels. You have an idea and want it built.
 
    Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/code-review`**, a two-axis review (Standards + Spec, plus Security when the diff earns it) of the diff, before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/code-review`** on its own whenever you want to review a branch or PR against a fixed point.
 
-   **HTTP / contract (fork):** if the work adds or changes an HTTP endpoint, **`/api-spec`** authors `docs/api/` **before** the handler. After the code exists, **`/openapi-doc`** reports drift, **`/open-collection`** builds a runnable Bruno collection, **`/confluence-api-doc`** publishes the docs, and HTTP-observable acceptance criteria get **`/e2e-playwright`**. These are model-invoked extras, not a second main flow.
+   **HTTP / contract (fork):** if the work adds or changes an HTTP endpoint, **`/api-spec`** authors `docs/api/` **before** the handler. After the code exists, **`/openapi-doc`** reports drift, **`/open-collection`** builds a runnable Bruno collection, **`/confluence-api-doc`** publishes the docs, and HTTP-observable acceptance criteria get **`/e2e-playwright`**. Per-request gin `audit_log` is **`/http-audit-log`**. These are model-invoked extras, not a second main flow.
 
 ### Context hygiene
 

@@ -38,6 +38,7 @@ Model- or user-reachable (rich trigger phrasing so the model can reach for them)
 - **[open-collection](./open-collection/SKILL.md)**: Generate a runnable Bruno OpenCollection from the api-spec.
 - **[confluence-api-doc](./confluence-api-doc/SKILL.md)**: Publish the api-spec to Confluence as caller-facing pages.
 - **[e2e-playwright](./e2e-playwright/SKILL.md)**: AC-driven HTTP e2e tests on a Jest + Playwright-request harness.
+- **[http-audit-log](./http-audit-log/SKILL.md)**: Port one-row gin `audit_log` onto a hexagonal service.
 - **[falsifying](./falsifying/SKILL.md)**: Attack a green gate to see whether it can go red.
 - **[bug-hunter](./bug-hunter/SKILL.md)**: Hunt product defects no acceptance criterion asked about.
 - **[attack-test](./attack-test/SKILL.md)**: Fire live HTTP abuse paths after the happy path works.
