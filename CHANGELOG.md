@@ -1,5 +1,11 @@
 # neo-matt
 
+## 1.1.1
+
+### Patch Changes
+
+- Move fork-owned plugin skills from `engineering/` into a `neo` bucket so ownership is visible from the tree. Skill names and invocation stay the same.
+
 ## 1.1.0
 
 ### Minor Changes
